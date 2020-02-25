@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Life of Ji-young</title>
+    <style>
+        @font-face {
+            font-family: "newFont";
+            src: url(assets/font.ttf) format("truetype");
+        }
+
+        * {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: "newFont";
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<script type="text/javascript" src="library/pixi.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+
+<body>
+    <canvas>
+        <!-- <div id="Stats-output"></div> -->
+        <div>
+            <h1>hello</h1>
+        </div>
+    </canvas>
+    <script type="text/javascript">
+
+        class utils {
+            static debounce(callback, time) {
+                var timeout;
+                return function () {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(callback, time);
+                };
+            }
+            static random(min, max) {
+                if (max == null) { max = min; min = 0; }
+                if (min > max) { var tmp = min; min = max; max = tmp; }
+                return min + (max - min) * Math.random();
+            }
+        }
+
+        class flake extends PIXI.Sprite {
+            constructor(texture) {
+                super(texture);
+                this.anchor.set(0.5);
+                this.scale.set(utils.random(0.05, 0.2));
+
+                this.vy = this.scale.y / 30;
+                this.vx = this.scale.y / 24;
+                this.noy = utils.random(-200, -100);
+            }
+            reset(w, h, first = true, wind) {
+
+                this.ox = utils.random(-200 - 100 * wind, w + 200 + 100 * wind);
+                if (first) {
+                    this.oy = utils.random(-200, h + 200);
+                    this.oframe = utils.random(0, 200);
+                }
+                this.frame = this.oframe;
+                this.position.set(this.ox, first ? this.oy : this.noy);
+                // this.wind=0;
+            }
+            next(w, h, wind, down = 0) {
+                this.frame++;
+                let y = this.position.y + this.vy * this.frame;
+                let x = this.ox + Math.cos(this.vx * this.frame) * 100;
+                this.position.set(x, y);
+                if (y > h + 200) {
+                    this.reset(w, h, false, wind, down);
+                }
+                if (this.x > w + 200) {
+                    this.ox -= (w + 200);
+                }
+                if (this.x < -200) {
+                    this.ox += (w + 200);
+                }
+                if (this.y < -200) {
+                    this.y = (h + 200);
+                }
+                this.ox -= wind;//*(this.vx*30);
+                this.position.y -= down * (this.vy) * 100;
+            }
+        }
+
+        class app {
+
+            constructor() {
+                // console.log("%c PIXI Snow by Paulo Afonso ", "background:#365597; color:#fff;");
+                this.totalFlakes = 500;
+                this.wind = 0;
+                this.down = 0;
+
+                this.snowFlakes = [];
+                this.loader = new PIXI.loaders.Loader()
+                    .add("snowflake", "assets/snow.png")
+                    .add("jy", "assets/jy.json");
+                this.loader
+                    .load((loader, assets) => { this.init(loader, assets); });
+
+            }
+
+            init(loader, assets) {
+
+                this.sprites = new PIXI.ParticleContainer(this.totalFlakes, {
+                    scale: true,
+                    position: true,
+                    rotation: false,
+                    uvs: false,
+                    tint: false
+                });
+
+                this.jy0 = new PIXI.Sprite(assets.jy.textures["jy0.png"]);
+                this.jy0.x = window.innerWidth / 2 - this.jy0.width / 2;
+                this.jy0.y = window.innerHeight / 2 + this.jy0.width / 2;
+                this.jy1 = new PIXI.Sprite(assets.jy.textures["jy1.png"]);
+                this.jy1.width = this.jy0.width * 0.6;
+                this.jy1.height = this.jy0.height * 0.6;
+                this.jy1.x = window.innerWidth / 2 - this.jy1.width / 2;
+                this.jy1.y = window.innerHeight / 2 + this.jy1.width * 0.8;
+                this.jy2 = new PIXI.Sprite(assets.jy.textures["jy2.png"]);
+                this.jy2.width = this.jy0.width * 0.6;
+                this.jy2.height = this.jy0.height * 0.6;
+                this.jy2.x = window.innerWidth / 2 - this.jy2.width / 2;
+                this.jy2.y = window.innerHeight / 2 + this.jy2.width * 0.8;
+
+                this.jy0.alpha = 0;
+                this.jy1.alpha = 0;
+                this.jy2.alpha = 0;
+
+                this.pixi = new PIXI.Application({
+                    view: document.querySelector("canvas"),
+                    backgroundColor: 0xB0C4DE
+                });
+
+                this.resize = utils.debounce(() => { this.resizeScene(); }, 100);
+                window.addEventListener("resize", () => { this.resize(); });
+
+                this.title = new PIXI.Text('Life of Ji-young', {
+                    fontFamily: 'newFont',
+                    fontSize: 45,
+                    fill: 0xF0F8FF
+                });
+                this.subTitle = new PIXI.Text('A Story-telling Project', {
+                    fontFamily: 'newFont',
+                    fontSize: 25,
+                    fill: 0xF0F8FF
+                });
+
+                this.title.x = window.innerWidth / 2 - this.title.width / 2;
+                this.title.y = window.innerHeight / 4;
+                this.subTitle.x = window.innerWidth / 2 - this.subTitle.width / 2;
+                this.subTitle.y = window.innerHeight / 4 + this.title.height * 2;
+
+                this.pixi.stage.addChild(this.jy0);
+                this.pixi.stage.addChild(this.jy1);
+                this.pixi.stage.addChild(this.jy2);
+                this.pixi.stage.addChild(this.sprites);
+                this.pixi.stage.addChild(this.title);
+                this.pixi.stage.addChild(this.subTitle);
+
+                // setInterval(() => { this.image1(); }, 1000);
+                setInterval(() => { this.image2(); }, 500);
+                // setInterval(() => { this.image1(); }, 3000);
+                setInterval(() => { this.image3(); }, 1000);
+
+                this.initStats();
+                this.initDatGui();
+                this.createFlakes(assets.snowflake.texture);
+
+                this.pixi.ticker.add(() => {
+                    this.stats.begin();
+                    this.render();
+                    this.stats.end();
+                });
+
+                this.resize();
+
+            }
+
+            image1() {
+                this.jy0.alpha = 1;
+                this.jy1.alpha = 0;
+                this.jy2.alpha = 0;
+            }
+            image2() {
+                this.jy0.alpha = 0;
+                this.jy1.alpha = 1;
+                this.jy2.alpha = 0;
+            }
+            image3() {
+                this.jy0.alpha = 0;
+                this.jy1.alpha = 0;
+                this.jy2.alpha = 1;
+            }
+
+            initStats() {
+                // STATS
+                this.stats = new Stats();
+                this.stats.setMode(0);
+                this.stats.domElement.style.position = 'absolute';
+                this.stats.domElement.style.top = '0px'
+                this.stats.domElement.style.left = '0px'
+                // document.getElementById("Stats-output").appendChild(this.stats.domElement);
+            }
+
+            initDatGui() {
+                var gui = new dat.GUI();
+                // gui.add(this, 'wind', -15, 15);
+                // gui.add(this, 'down', 0, 15);
+            }
+
+            createFlakes(texture) {
+                for (let i = 0; i < this.totalFlakes; i++) {
+                    var f = new flake(texture);
+                    this.snowFlakes.push(f);
+                    this.sprites.addChild(f);
+                }
+            }
+
+            resizeScene() {
+                console.log("resize", this.wind);
+                this.w = window.innerWidth,
+                    this.h = window.innerHeight;
+                this.pixi.renderer.resize(this.w, this.h);
+                for (var i = 0; i < this.totalFlakes; i++) {
+                    this.snowFlakes[i].reset(this.w, this.h, true, this.wind);
+                }
+            }
+
+            render() {
+                for (var i = 0; i < this.totalFlakes; i++) {
+                    this.snowFlakes[i].next(this.w, this.h, this.wind, this.down);
+                }
+            }
+
+        }
+
+        new app();
+
+
+    </script>
+</body>
+
+</html>
