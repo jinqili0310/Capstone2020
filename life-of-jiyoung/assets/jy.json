@@ -10,7 +10,7 @@
 },
 "jy1.png":
 {
-	"frame": {"x":260,"y":1,"w":227,"h":332},
+	"frame": {"x":1,"y":1382,"w":227,"h":332},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":59,"y":29,"w":227,"h":332},
@@ -18,19 +18,67 @@
 },
 "jy2.png":
 {
-	"frame": {"x":489,"y":1,"w":227,"h":332},
+	"frame": {"x":230,"y":1382,"w":227,"h":332},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":29,"y":29,"w":227,"h":332},
 	"sourceSize": {"w":315,"h":390}
+},
+"jy3.png":
+{
+	"frame": {"x":1,"y":335,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":59,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
+},
+"jy4.png":
+{
+	"frame": {"x":230,"y":335,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
+},
+"jy5.png":
+{
+	"frame": {"x":1,"y":684,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":59,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
+},
+"jy6.png":
+{
+	"frame": {"x":230,"y":684,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
+},
+"jy7.png":
+{
+	"frame": {"x":1,"y":1033,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":59,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
+},
+"jy8.png":
+{
+	"frame": {"x":230,"y":1033,"w":227,"h":347},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":29,"w":227,"h":347},
+	"sourceSize": {"w":315,"h":405}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "jy.png",
 	"format": "RGBA8888",
-	"size": {"w":717,"h":334},
+	"size": {"w":458,"h":1715},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:da18108be02cf3df7bfec509a1eed82b:e10ec3fd4f018649e0006c1da5db6c3c:48a9b45f25ec70b838151cc1a8c827a7$"
+	"smartupdate": "$TexturePacker:SmartUpdate:106bfa3e2410971be2a94622e887f4ac:08aa20309f4fd69e7166e8b8d6572dd2:48a9b45f25ec70b838151cc1a8c827a7$"
 }
 }

@@ -23,13 +23,11 @@
 <script type="text/javascript" src="library/pixi.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <body>
     <canvas>
         <!-- <div id="Stats-output"></div> -->
-        <div>
-            <h1>hello</h1>
-        </div>
     </canvas>
     <script type="text/javascript">
 
@@ -132,9 +130,48 @@
                 this.jy2.x = window.innerWidth / 2 - this.jy2.width / 2;
                 this.jy2.y = window.innerHeight / 2 + this.jy2.width * 0.8;
 
+                this.jy3 = new PIXI.Sprite(assets.jy.textures["jy3.png"]);
+                this.jy3.width = this.jy0.width * 0.6;
+                this.jy3.height = this.jy0.height * 0.6;
+                this.jy3.x = window.innerWidth / 2 - this.jy3.width / 2;
+                this.jy3.y = window.innerHeight / 2 + this.jy3.width * 0.8;
+                this.jy4 = new PIXI.Sprite(assets.jy.textures["jy4.png"]);
+                this.jy4.width = this.jy0.width * 0.6;
+                this.jy4.height = this.jy0.height * 0.6;
+                this.jy4.x = window.innerWidth / 2 - this.jy4.width / 2;
+                this.jy4.y = window.innerHeight / 2 + this.jy4.width * 0.8;
+
+                this.jy5 = new PIXI.Sprite(assets.jy.textures["jy5.png"]);
+                this.jy5.width = this.jy0.width * 0.6;
+                this.jy5.height = this.jy0.height * 0.6;
+                this.jy5.x = window.innerWidth / 2 - this.jy5.width / 2;
+                this.jy5.y = window.innerHeight / 2 + this.jy5.width * 0.8;
+                this.jy6 = new PIXI.Sprite(assets.jy.textures["jy6.png"]);
+                this.jy6.width = this.jy0.width * 0.6;
+                this.jy6.height = this.jy0.height * 0.6;
+                this.jy6.x = window.innerWidth / 2 - this.jy6.width / 2;
+                this.jy6.y = window.innerHeight / 2 + this.jy6.width * 0.8;
+
+                this.jy7 = new PIXI.Sprite(assets.jy.textures["jy7.png"]);
+                this.jy7.width = this.jy0.width * 0.6;
+                this.jy7.height = this.jy0.height * 0.6;
+                this.jy7.x = window.innerWidth / 2 - this.jy7.width / 2;
+                this.jy7.y = window.innerHeight / 2 + this.jy7.width * 0.8;
+                this.jy8 = new PIXI.Sprite(assets.jy.textures["jy8.png"]);
+                this.jy8.width = this.jy0.width * 0.6;
+                this.jy8.height = this.jy0.height * 0.6;
+                this.jy8.x = window.innerWidth / 2 - this.jy8.width / 2;
+                this.jy8.y = window.innerHeight / 2 + this.jy8.width * 0.8;
+
                 this.jy0.alpha = 0;
                 this.jy1.alpha = 0;
                 this.jy2.alpha = 0;
+                this.jy3.alpha = 0;
+                this.jy4.alpha = 0;
+                this.jy5.alpha = 0;
+                this.jy6.alpha = 0;
+                this.jy7.alpha = 0;
+                this.jy8.alpha = 0;
 
                 this.pixi = new PIXI.Application({
                     view: document.querySelector("canvas"),
@@ -160,17 +197,119 @@
                 this.subTitle.x = window.innerWidth / 2 - this.subTitle.width / 2;
                 this.subTitle.y = window.innerHeight / 4 + this.title.height * 2;
 
+                var jyArray = [
+                    (() => {
+                        this.jy1.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy2.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy3.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy4.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy5.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy6.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy7.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy8.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                    })];
+                var index = 0;
+                setInterval(() => {
+                    if (index < jyArray.length) {
+                        console.log(index);
+                        jyArray[index]();
+                    }
+                    else {
+                        index = -1;
+                    };
+                    index += 1;
+                }, 400);
+
                 this.pixi.stage.addChild(this.jy0);
                 this.pixi.stage.addChild(this.jy1);
                 this.pixi.stage.addChild(this.jy2);
+                this.pixi.stage.addChild(this.jy3);
+                this.pixi.stage.addChild(this.jy4);
+                this.pixi.stage.addChild(this.jy5);
+                this.pixi.stage.addChild(this.jy6);
+                this.pixi.stage.addChild(this.jy7);
+                this.pixi.stage.addChild(this.jy8);
                 this.pixi.stage.addChild(this.sprites);
                 this.pixi.stage.addChild(this.title);
                 this.pixi.stage.addChild(this.subTitle);
-
-                // setInterval(() => { this.image1(); }, 1000);
-                setInterval(() => { this.image2(); }, 500);
-                // setInterval(() => { this.image1(); }, 3000);
-                setInterval(() => { this.image3(); }, 1000);
 
                 this.initStats();
                 this.initDatGui();
@@ -184,22 +323,6 @@
 
                 this.resize();
 
-            }
-
-            image1() {
-                this.jy0.alpha = 1;
-                this.jy1.alpha = 0;
-                this.jy2.alpha = 0;
-            }
-            image2() {
-                this.jy0.alpha = 0;
-                this.jy1.alpha = 1;
-                this.jy2.alpha = 0;
-            }
-            image3() {
-                this.jy0.alpha = 0;
-                this.jy1.alpha = 0;
-                this.jy2.alpha = 1;
             }
 
             initStats() {
