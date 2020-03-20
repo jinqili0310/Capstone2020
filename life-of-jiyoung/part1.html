@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Part 1</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="library/pixi.min.js"></script>
+</head>
+
+<body>
+    <!-- <canvas></canvas> -->
+    <script type="text/javascript">
+        let type = "WebGL";
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        };
+        PIXI.utils.sayHello(type);
+
+        function keyboard(keyCode) {
+            let key = {};
+            key.code = keyCode;
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+            //The `downHandler`
+            key.downHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            };
+
+            //The `upHandler`
+            key.upHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+                event.preventDefault();
+            };
+
+            //Attach event listeners
+            window.addEventListener(
+                "keydown", key.downHandler.bind(key), false
+            );
+            window.addEventListener(
+                "keyup", key.upHandler.bind(key), false
+            );
+            return key;
+        }
+
+        let Application = PIXI.Application,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
+
+        let app = new Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            antialias: true,
+            transparent: false,
+            resolution: 1
+        });
+        document.body.appendChild(app.view);
+
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        app.renderer.autoResize = true;
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        loader
+            .add("assets/bedroom.png")
+            .add("assets/jiyoung-1.png")
+            .add("assets/ouni-1.png")
+            .add("assets/grandma-2.png")
+            .add("assets/jiyoung-2.png")
+            .add("assets/ouni-2.png")
+            .add("assets/dinningroom.png")
+            .add("assets/jiyoung-3.png")
+            .add("assets/ouni-3.png")
+            .add("assets/mom-3.png")
+            .add("assets/dad-3.png")
+            .add("assets/brother-3.png")
+            .load(setup);
+
+        let jiyoung1, ouni1, jiyoung2, ouni2, grandma2, jiyoung3, ouni3, mom3, dad3, bro3, state;
+
+        function setup() {
+            app.ticker.add(delta => gameLoop(delta));
+
+            let bedroom = new Sprite(resources["assets/bedroom.png"].texture);
+            app.stage.addChild(bedroom);
+            bedroom.width = window.innerWidth;
+            bedroom.height = bedroom.width * 0.7;
+            bedroom.x = window.innerWidth / 2 - bedroom.width / 2;
+            bedroom.y = window.innerHeight / 2 - bedroom.height / 2;
+            // bedroom.height = window.innerWidth * (bedroom.width / bedroom.height);
+            // bedroom.y = (window.innerHeight - bedroom.height) / 2;
+
+            let dinningroom = new Sprite(resources["assets/dinningroom.png"].texture);
+            app.stage.addChild(dinningroom);
+            dinningroom.width = window.innerWidth;
+            dinningroom.height = dinningroom.width * 0.7;
+            dinningroom.x = window.innerWidth / 2 - dinningroom.width / 2;
+            dinningroom.y = window.innerHeight / 2 - dinningroom.height / 2;
+            dinningroom.alpha = 0;
+
+            jiyoung1 = new Sprite(resources["assets/jiyoung-1.png"].texture);
+            jiyoung1.vx = 0;
+            jiyoung1.vy = 0;
+            app.stage.addChild(jiyoung1);
+            jiyoung1.height = 400;
+            jiyoung1.width = jiyoung1.height * 0.8;
+            jiyoung1.x = window.innerWidth * 0.6;
+            jiyoung1.y = window.innerHeight - (jiyoung1.height * 1.5);
+            jiyoung1.interactive = true;
+
+            jiyoung2 = new Sprite(resources["assets/jiyoung-2.png"].texture);
+            jiyoung2.vx = 0;
+            jiyoung2.vy = 0;
+            app.stage.addChild(jiyoung2);
+            jiyoung2.height = 400;
+            jiyoung2.width = jiyoung2.height * 0.8;
+            jiyoung2.x = window.innerWidth * 0.7;
+            jiyoung2.y = window.innerHeight - (jiyoung2.height * 1.5);
+            jiyoung2.alpha = 0;
+
+            jiyoung3 = new Sprite(resources["assets/jiyoung-3.png"].texture);
+            jiyoung3.vx = 0;
+            jiyoung3.vy = 0;
+            app.stage.addChild(jiyoung3);
+            jiyoung3.height = 280;
+            jiyoung3.width = jiyoung3.height * 0.8;
+            jiyoung3.x = window.innerWidth * 0.35;
+            jiyoung3.y = window.innerHeight / 2 - jiyoung3.height * 1.1;
+            jiyoung3.alpha = 0;
+
+            ouni1 = new Sprite(resources["assets/ouni-1.png"].texture);
+            ouni1.vx = 0;
+            ouni1.vy = 0;
+            app.stage.addChild(ouni1);
+            ouni1.height = 450;
+            ouni1.width = ouni1.height * 0.8;
+            ouni1.x = jiyoung1.x - (ouni1.width * 1.5);
+            ouni1.y = jiyoung1.y - 50;
+            ouni1.interactive = true;
+
+            ouni2 = new Sprite(resources["assets/ouni-2.png"].texture);
+            ouni2.vx = 0;
+            ouni2.vy = 0;
+            app.stage.addChild(ouni2);
+            ouni2.height = 450;
+            ouni2.width = ouni2.height * 0.8;
+            ouni2.x = jiyoung2.x - (ouni2.width * 1);
+            ouni2.y = jiyoung2.y - 50;
+            ouni2.alpha = 0;
+
+            ouni3 = new Sprite(resources["assets/ouni-3.png"].texture);
+            ouni3.vx = 0;
+            ouni3.vy = 0;
+            app.stage.addChild(ouni3);
+            ouni3.height = 300;
+            ouni3.width = ouni3.height * 0.8;
+            ouni3.x = jiyoung3.x + (ouni3.width * 0.9);
+            ouni3.y = jiyoung3.y + 60;
+            ouni3.alpha = 0;
+
+            mom3 = new Sprite(resources["assets/mom-3.png"].texture);
+            mom3.vx = 0;
+            mom3.vy = 0;
+            app.stage.addChild(mom3);
+            mom3.height = 330;
+            mom3.width = mom3.height * 0.8;
+            mom3.x = jiyoung3.x - (mom3.width * 1.2);
+            mom3.y = jiyoung3.y - 55;
+            mom3.alpha = 0;
+
+            grandma2 = new Sprite(resources["assets/grandma-2.png"].texture);
+            grandma2.vx = 0;
+            grandma2.vy = 0;
+            app.stage.addChild(grandma2);
+            grandma2.height = 480;
+            grandma2.width = grandma2.height * 0.8;
+            grandma2.x = ouni2.x - (grandma2.width * 1.6);
+            grandma2.y = ouni2.y - 30;
+            grandma2.alpha = 0;
+
+            dad3 = new Sprite(resources["assets/dad-3.png"].texture);
+            dad3.vx = 0;
+            dad3.vy = 0;
+            app.stage.addChild(dad3);
+            dad3.height = 380;
+            dad3.width = dad3.height * 0.8;
+            dad3.x = jiyoung3.x + (dad3.width * 1.5);
+            dad3.y = window.innerHeight - dad3.height - 80;
+            dad3.alpha = 0;
+
+            bro3 = new Sprite(resources["assets/brother-3.png"].texture);
+            bro3.vx = 0;
+            bro3.vy = 0;
+            app.stage.addChild(bro3);
+            bro3.height = 300;
+            bro3.width = bro3.height * 0.8;
+            bro3.x = window.innerWidth * 0.5;
+            bro3.y = window.innerHeight - bro3.height - 85;
+            bro3.alpha = 0;
+            bro3.interactive = false;
+
+            let text1 = new PIXI.Text("Ji-young and her older sister are playing in their bedroom.", {
+                font: "28px robotoMedium",
+                fill: 0xeeeeee,
+                align: "center"
+            });
+            app.stage.addChild(text1);
+            text1.x = window.innerWidth / 2 - text1.width / 2;
+            text1.y = window.innerHeight - text1.height - 30;
+
+            let text4 = new PIXI.Text("Their grandmom gets in and says: “Be quiet! Good girls don’t make noise!\nGet out of the room and help your mom!”", {
+                font: "28px robotoMedium",
+                fill: 0xeeeeee,
+                align: "center"
+            });
+            app.stage.addChild(text4);
+            text4.x = window.innerWidth / 2 - text4.width / 2;
+            text4.y = window.innerHeight - text4.height - 30;
+            text4.alpha = 0;
+
+            let text5 = new PIXI.Text("Ji-young and sister are working in the dinning room, with their mom,\nwhile their brother is playing, with their dad.", {
+                font: "28px robotoMedium",
+                fill: 0x333333,
+                align: "center"
+            });
+            app.stage.addChild(text5);
+            text5.x = window.innerWidth / 2 - text5.width / 2;
+            text5.y = window.innerHeight - text5.height - 30;
+            text5.alpha = 0;
+
+            let text2 = new PIXI.Text("Use 'Q' & 'W' to move Ji-young, and 'A' & 'S' to move her sister.", {
+                font: "16px robotoMedium",
+                fill: 0x000000
+            });
+            app.stage.addChild(text2);
+            text2.x = window.innerWidth - text2.width;
+            text2.y = 0;
+
+            let text6 = new PIXI.Text("Use 'arrowLeft' & 'arrowRight' to move the young brother.", {
+                font: "16px robotoMedium",
+                fill: 0x000000
+            });
+            app.stage.addChild(text6);
+            text6.x = window.innerWidth - text6.width;
+            text6.y = 0;
+            text6.alpha = 0;
+
+            let text3 = new PIXI.Text("Click on anywhere to continue.", {
+                font: "16px robotoMedium",
+                fill: 0x000000
+            });
+            app.stage.addChild(text3);
+            text3.x = window.innerWidth - text3.width;
+            text3.y = text2.height;
+
+            let left1 = keyboard(81),
+                right1 = keyboard(87),
+                left2 = keyboard(65),
+                right2 = keyboard(83),
+                space = keyboard(32),
+                left3 = keyboard(37),
+                right3 = keyboard(39);
+
+            // key for jiyoung1
+            left1.press = () => {
+                jiyoung1.vx = -2;
+            };
+            left1.release = () => {
+                if (!right1.isDown) {
+                    jiyoung1.vx = 0;
+                }
+            };
+            right1.press = () => {
+                jiyoung1.vx = 2;
+            };
+            right1.release = () => {
+                if (!left1.isDown) {
+                    jiyoung1.vx = 0;
+                }
+            };
+
+            // key for ouni1
+            left2.press = () => {
+                ouni1.vx = -2;
+            };
+            left2.release = () => {
+                if (!right2.isDown) {
+                    ouni1.vx = 0;
+                }
+            };
+            right2.press = () => {
+                ouni1.vx = 2;
+            };
+            right2.release = () => {
+                if (!left2.isDown) {
+                    ouni1.vx = 0;
+                }
+            };
+
+            // key for bro3
+            left3.press = () => {
+                bro3.vx = -2;
+            };
+            left3.release = () => {
+                if (!right3.isDown) {
+                    bro3.vx = 0;
+                }
+            };
+            right3.press = () => {
+                bro3.vx = 2;
+            };
+            right3.release = () => {
+                if (!left3.isDown) {
+                    bro3.vx = 0;
+                }
+            };
+
+            state = play;
+
+            app.ticker.add(delta => gameLoop(delta));
+
+            let bkg = new PIXI.Container();
+            app.stage.addChild(bkg);
+            bkg.interactive = true;
+            bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg.on("pointerup", function () {
+                console.log("next page");
+                console.log(jiyoung1);
+                jiyoung1.alpha = 0;
+                ouni1.alpha = 0;
+                jiyoung1.interactive = false;
+                ouni1.interactive = false;
+                text1.alpha = 0;
+                jiyoung2.alpha = 1;
+                ouni2.alpha = 1;
+                text4.alpha = 1;
+                grandma2.alpha = 1;
+                text2.alpha = 0;
+                text3.y = 0;
+                bkg.interactive = false;
+                bkg2.interactive = true;
+            }, this);
+
+            let bkg2 = new PIXI.Container();
+            app.stage.addChild(bkg2);
+            bkg2.interactive = false;
+            bkg2.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg2.on("pointerup", function () {
+                console.log("next page 2");
+                jiyoung2.alpha = 0;
+                ouni2.alpha = 0;
+                text4.alpha = 0;
+                grandma2.alpha = 0;
+                bedroom.alpha = 0;
+                dinningroom.alpha = 1;
+                text6.alpha = 1;
+                text3.y = text6.height;
+                jiyoung3.alpha = 1;
+                ouni3.alpha = 1;
+                mom3.alpha = 1;
+                dad3.alpha = 1;
+                bro3.alpha = 1;
+                bro3.interactive = true;
+                text5.alpha = 1;
+                bkg2.interactive = false;
+                bkg3.interactive = true;
+            }, this);
+
+            let bkg3 = new PIXI.Container();
+            app.stage.addChild(bkg3);
+            bkg3.interactive = false;
+            bkg3.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg3.on("pointerup", function () {
+                console.log("next page 3");
+                window.location.href = "interval.html";
+            }, this);
+
+        }
+
+        function gameLoop(delta) {
+            state(delta);
+        }
+
+        function play(delta) {
+            jiyoung1.x += jiyoung1.vx;
+            ouni1.x += ouni1.vx;
+
+            bro3.x += bro3.vx;
+
+        }
+
+
+        function contain(sprite, container) {
+
+            let collision = undefined;
+
+            //Left
+            if (sprite.x < container.x) {
+                sprite.x = container.x;
+                collision = "left";
+            }
+
+            //Top
+            if (sprite.y < container.y) {
+                sprite.y = container.y;
+                collision = "top";
+            }
+
+            //Right
+            if (sprite.x + sprite.width > container.width) {
+                sprite.x = container.width - sprite.width;
+                collision = "right";
+            }
+
+            //Bottom
+            if (sprite.y + sprite.height > container.height) {
+                sprite.y = container.height - sprite.height;
+                collision = "bottom";
+            }
+
+            //Return the `collision` value
+            return collision;
+        }
+
+        // ouni: eyJIYWlyTG93ZXIiOiIzIiwiRXllcyI6IjQiLCJNb3V0aCI6IjE5IiwiU2hvZXMiOiIyIiwiUGFudHMiOiI1IiwiVG9wIjoiMTUiLCJIYWlyIjoiMjUiLCJHbGFzc2VzIjoiMyIsImV5ZXNUb25lIjoiMzYyNjI2IiwicGFudHNUb25lIjoiZmZmZmZmIiwidG9wVG9uZSI6Ijg0NWFkOCIsInRvcFRvbmUyIjoiZmZmZmZmIiwic2hvZXNUb25lIjoiODQ1YWQ4In0=
+        // jiyoung: eyJIYWlyTG93ZXIiOiIxMSIsIkV5ZXMiOiIyNCIsIk1vdXRoIjoiMTkiLCJTaG9lcyI6IjIiLCJUb3AiOiIxMSIsIkhhaXIiOiI5IiwiZXllc1RvbmUiOiIzNjI2MjYiLCJwYW50c1RvbmUiOiJmZmZmZmYiLCJ0b3BUb25lIjoiNGNhZGU5IiwidG9wVG9uZTIiOiJmZmZmZmYiLCJzaG9lc1RvbmUiOiJlZWVlZWUifQ==
+        // mom: eyJIYWlyTG93ZXIiOiIxOCIsIk1vdXRoIjoiNCIsIlNob2VzIjoiMiIsIlBhbnRzIjoiMSIsIlRvcCI6IjMiLCJIYWlyIjoiMjYiLCJleWVzVG9uZSI6IjM2MjYyNiIsImhhaXJUb25lIjoiNTMxZjFmIiwicGFudHNUb25lIjoiNmEzNTEyIiwidG9wVG9uZSI6ImUzOTM1ZiIsInRvcFRvbmUyIjoiZmZmZmZmIiwic2hvZXNUb25lIjoiZWVlZWVlIn0=
+        // dad: eyJFeWVzIjoiMiIsIk1vdXRoIjoiNSIsIlNob2VzIjoiMiIsIlBhbnRzIjoiMSIsIlRvcCI6IjEzIiwiSmFja2V0IjoiNSIsIkhhaXIiOiI4IiwiZXllc1RvbmUiOiIzNjI2MjYiLCJwYW50c1RvbmUiOiIzMzMzMzMiLCJ0b3BUb25lIjoiZmZmZmZmIiwidG9wVG9uZTIiOiJmZmZmZmYiLCJzaG9lc1RvbmUiOiJlZWVlZWUifQ==
+        // brother: eyJFeWVzIjoiMTUiLCJNb3V0aCI6IjExIiwiU2hvZXMiOiIyIiwiUGFudHMiOiIyIiwiVG9wIjoiMTMiLCJIYWlyIjoiMiIsImV5ZXNUb25lIjoiMzYyNjI2IiwicGFudHNUb25lIjoiZmZmZmZmIiwidG9wVG9uZSI6IjQwNjdiOCIsInRvcFRvbmUyIjoiZmZmZmZmIiwic2hvZXNUb25lIjoiNDA2N2I4In0=
+
+    </script>
+</body>
+
+</html>
