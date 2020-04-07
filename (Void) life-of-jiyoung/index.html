@@ -1,0 +1,419 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Life of Ji-young</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="library/pixi.min.js"></script>
+    <!-- <script type="text/javascript" src="library/fontfaceobserver.standalone.js"></script> -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+</head>
+
+<body>
+    <canvas></canvas>
+
+    <script type="text/javascript">
+        class utils {
+            static debounce(callback, time) {
+                var timeout;
+                return function () {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(callback, time);
+                };
+            }
+            static random(min, max) {
+                if (max == null) { max = min; min = 0; }
+                if (min > max) { var tmp = min; min = max; max = tmp; }
+                return min + (max - min) * Math.random();
+            }
+        }
+
+        class flake extends PIXI.Sprite {
+            constructor(texture) {
+                super(texture);
+                this.anchor.set(0.5);
+                this.scale.set(utils.random(0.05, 0.2));
+
+                this.vy = this.scale.y / 30;
+                this.vx = this.scale.y / 24;
+                this.noy = utils.random(-200, -100);
+            }
+            reset(w, h, first = true, wind) {
+
+                this.ox = utils.random(-200 - 100 * wind, w + 200 + 100 * wind);
+                if (first) {
+                    this.oy = utils.random(-200, h + 200);
+                    this.oframe = utils.random(0, 200);
+                }
+                this.frame = this.oframe;
+                this.position.set(this.ox, first ? this.oy : this.noy);
+                // this.wind=0;
+            }
+            next(w, h, wind, down = 0) {
+                this.frame++;
+                let y = this.position.y + this.vy * this.frame;
+                let x = this.ox + Math.cos(this.vx * this.frame) * 100;
+                this.position.set(x, y);
+                if (y > h + 200) {
+                    this.reset(w, h, false, wind, down);
+                }
+                if (this.x > w + 200) {
+                    this.ox -= (w + 200);
+                }
+                if (this.x < -200) {
+                    this.ox += (w + 200);
+                }
+                if (this.y < -200) {
+                    this.y = (h + 200);
+                }
+                this.ox -= wind;//*(this.vx*30);
+                this.position.y -= down * (this.vy) * 100;
+            }
+        }
+
+        class app {
+            constructor() {
+                this.totalFlakes = 500;
+                this.wind = 0;
+                this.down = 0;
+
+                this.snowFlakes = [];
+                this.loader = new PIXI.loaders.Loader()
+                    .add("snowflake", "assets/snow.png")
+                    .add("jy", "assets/jy.json")
+                    .add("arrow", "assets/arrow.png");
+                this.loader
+                    .load((loader, assets) => { this.init(loader, assets); });
+            }
+
+            init(loader, assets) {
+                this.sprites = new PIXI.ParticleContainer(this.totalFlakes, {
+                    scale: true,
+                    position: true,
+                    rotation: false,
+                    uvs: false,
+                    tint: false
+                });
+
+                this.jy0 = new PIXI.Sprite(assets.jy.textures["jy0.png"]);
+                this.jy0.x = window.innerWidth / 2 - this.jy0.width / 2;
+                this.jy0.y = window.innerHeight / 2 + this.jy0.width / 2;
+                this.jy1 = new PIXI.Sprite(assets.jy.textures["jy1.png"]);
+                this.jy1.width = this.jy0.width * 0.6;
+                this.jy1.height = this.jy0.height * 0.6;
+                this.jy1.x = window.innerWidth / 2 - this.jy1.width / 2;
+                this.jy1.y = window.innerHeight / 2 + this.jy1.width * 0.6;
+                this.jy2 = new PIXI.Sprite(assets.jy.textures["jy2.png"]);
+                this.jy2.width = this.jy0.width * 0.58;
+                this.jy2.height = this.jy0.height * 0.58;
+                this.jy2.x = window.innerWidth / 2 - this.jy2.width / 2;
+                this.jy2.y = window.innerHeight / 2 + this.jy2.width * 0.6;
+
+                this.jy3 = new PIXI.Sprite(assets.jy.textures["jy3.png"]);
+                this.jy3.width = this.jy0.width * 0.56;
+                this.jy3.height = this.jy0.height * 0.56;
+                this.jy3.x = window.innerWidth / 2 - this.jy3.width / 2;
+                this.jy3.y = window.innerHeight / 2 + this.jy3.width * 0.6;
+                this.jy4 = new PIXI.Sprite(assets.jy.textures["jy4.png"]);
+                this.jy4.width = this.jy0.width * 0.54;
+                this.jy4.height = this.jy0.height * 0.54;
+                this.jy4.x = window.innerWidth / 2 - this.jy4.width / 2;
+                this.jy4.y = window.innerHeight / 2 + this.jy4.width * 0.6;
+
+                this.jy5 = new PIXI.Sprite(assets.jy.textures["jy5.png"]);
+                this.jy5.width = this.jy0.width * 0.52;
+                this.jy5.height = this.jy0.height * 0.52;
+                this.jy5.x = window.innerWidth / 2 - this.jy5.width / 2;
+                this.jy5.y = window.innerHeight / 2 + this.jy5.width * 0.6;
+                this.jy6 = new PIXI.Sprite(assets.jy.textures["jy6.png"]);
+                this.jy6.width = this.jy0.width * 0.5;
+                this.jy6.height = this.jy0.height * 0.5;
+                this.jy6.x = window.innerWidth / 2 - this.jy6.width / 2;
+                this.jy6.y = window.innerHeight / 2 + this.jy6.width * 0.6;
+
+                this.jy7 = new PIXI.Sprite(assets.jy.textures["jy7.png"]);
+                this.jy7.width = this.jy0.width * 0.48;
+                this.jy7.height = this.jy0.height * 0.48;
+                this.jy7.x = window.innerWidth / 2 - this.jy7.width / 2;
+                this.jy7.y = window.innerHeight / 2 + this.jy7.width * 0.6;
+                this.jy8 = new PIXI.Sprite(assets.jy.textures["jy8.png"]);
+                this.jy8.width = this.jy0.width * 0.46;
+                this.jy8.height = this.jy0.height * 0.46;
+                this.jy8.x = window.innerWidth / 2 - this.jy8.width / 2;
+                this.jy8.y = window.innerHeight / 2 + this.jy8.width * 0.6;
+
+                this.jy0.alpha = 0;
+                this.jy1.alpha = 0;
+                this.jy2.alpha = 0;
+                this.jy3.alpha = 0;
+                this.jy4.alpha = 0;
+                this.jy5.alpha = 0;
+                this.jy6.alpha = 0;
+                this.jy7.alpha = 0;
+                this.jy8.alpha = 0;
+
+                this.pixi = new PIXI.Application({
+                    view: document.querySelector("canvas"),
+                    backgroundColor: 0xB0C4DE,
+                    antialias: true,
+                    transparent: false,
+                    resolution: 1
+                });
+
+                this.pixi.renderer.view.style.position = "absolute";
+                this.pixi.renderer.view.style.display = "block";
+                this.pixi.renderer.autoResize = true;
+                this.pixi.renderer.resize(window.innerWidth, window.innerHeight);
+
+                document.fonts.load("14px 'pixiFont'").then(() => {
+                    this.title = new PIXI.Text('Life of Ji-young', {
+                        fontFamily: 'pixiFont',
+                        fontSize: 45,
+                        fill: 0xF0F8FF
+                    });
+                    this.subTitle = new PIXI.Text('A Storytelling Project', {
+                        fontFamily: 'pixiFont',
+                        fontSize: 25,
+                        fill: 0xF0F8FF
+                    });
+                    this.title.x = window.innerWidth / 2 - this.title.width / 2;
+                    this.title.y = window.innerHeight / 4;
+                    this.subTitle.x = window.innerWidth / 2 - this.subTitle.width / 2;
+                    this.subTitle.y = window.innerHeight / 4 + this.title.height * 2;
+                    this.pixi.stage.addChild(this.title);
+                    this.pixi.stage.addChild(this.subTitle);
+                }, this);
+
+                this.resize = utils.debounce(() => { this.resizeScene(); }, 100);
+                window.addEventListener("resize", () => { this.resize(); });
+
+                this.info = new PIXI.Text("Click on anywhere to continue.", {
+                    font: '16px robotoMedium',
+                    fill: 0xFFFFFF
+                });
+                this.info.x = window.innerWidth - this.info.width;
+                this.info.y = 0;
+
+                this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
+                this.intro = new PIXI.Text("hello, \nthis is introduction part", {
+                    font: '22px robotoMedium',
+                    align: 'center',
+                    fill: 0x333333
+                });
+                this.introBG.alpha = 0.7;
+                this.arrow = new PIXI.Sprite(assets.arrow.texture);
+                this.arrow.alpha = 1;
+                this.arrow.width = 40;
+                this.arrow.height = 30;
+                this.introBG.width = this.intro.width + 40;
+                this.introBG.height = this.intro.height + 60 + this.arrow.height;
+                this.cage = new PIXI.Container();
+                this.cage.addChild(this.intro, this.introBG, this.arrow);
+                this.cage.name = "intro";
+                this.cage.intro = this.intro;
+                this.cage.introBG = this.introBG;
+                this.cage.arrow = this.arrow;
+
+                this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
+                this.introBG.y = window.innerHeight / 3;
+                this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
+                this.intro.y = window.innerHeight / 3 + 20;
+                this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
+                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
+                this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
+                this.cage.y = window.innerHeight / 3;
+
+                this.arrow.interactive = true;
+                this.arrow.buttonMode = true;
+                this.arrow.on("pointerup", function () {
+                    console.log("next page");
+                    window.location.href = "part1.html";
+                });
+
+                var jyArray = [
+                    (() => {
+                        this.jy1.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy2.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy3.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy4.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy5.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy6.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy7.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy7.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy8.alpha = 0;
+                    }),
+                    (() => {
+                        this.jy8.alpha = 1;
+                        this.jy0.alpha = 0;
+                        this.jy1.alpha = 0;
+                        this.jy2.alpha = 0;
+                        this.jy3.alpha = 0;
+                        this.jy4.alpha = 0;
+                        this.jy5.alpha = 0;
+                        this.jy6.alpha = 0;
+                        this.jy7.alpha = 0;
+                    })];
+                var index = 0;
+                setInterval(() => {
+                    if (index < jyArray.length) {
+                        //console.log(index);
+                        jyArray[index]();
+                    }
+                    else {
+                        index = -1;
+                    };
+                    index += 1;
+                }, 400);
+
+                this.pixi.stage.addChild(this.jy0);
+                this.pixi.stage.addChild(this.jy1);
+                this.pixi.stage.addChild(this.jy2);
+                this.pixi.stage.addChild(this.jy3);
+                this.pixi.stage.addChild(this.jy4);
+                this.pixi.stage.addChild(this.jy5);
+                this.pixi.stage.addChild(this.jy6);
+                this.pixi.stage.addChild(this.jy7);
+                this.pixi.stage.addChild(this.jy8);
+                this.pixi.stage.addChild(this.sprites);
+                this.pixi.stage.addChild(this.info);
+
+                this.bkg = new PIXI.Container();
+                this.pixi.stage.addChild(this.bkg);
+                this.bkg.interactive = true;
+                this.bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+                this.bkg.on("pointerup", function () {
+                    this.pixi.stage.addChild(this.introBG);
+                    this.pixi.stage.addChild(this.intro);
+                    this.pixi.stage.addChild(this.arrow);
+                    this.pixi.stage.addChild(this.cage);
+                }, this);
+
+                this.initStats();
+                this.initDatGui();
+                this.createFlakes(assets.snowflake.texture);
+
+                this.pixi.ticker.add(() => {
+                    this.stats.begin();
+                    this.render();
+                    this.stats.end();
+                });
+
+                this.resize();
+
+            }
+
+            initStats() {
+                // STATS
+                this.stats = new Stats();
+                this.stats.setMode(0);
+                this.stats.domElement.style.position = 'absolute';
+                this.stats.domElement.style.top = '0px';
+                this.stats.domElement.style.left = '0px';
+            }
+
+            initDatGui() {
+                // var gui = new dat.GUI();
+                // gui.add(this, 'wind', -15, 15);
+                // gui.add(this, 'down', 0, 15);
+            }
+
+            createFlakes(texture) {
+                for (let i = 0; i < this.totalFlakes; i++) {
+                    var f = new flake(texture);
+                    this.snowFlakes.push(f);
+                    this.sprites.addChild(f);
+                }
+            }
+
+            resizeScene() {
+                this.w = window.innerWidth,
+                    this.h = window.innerHeight;
+                this.pixi.renderer.resize(this.w, this.h);
+                for (var i = 0; i < this.totalFlakes; i++) {
+                    this.snowFlakes[i].reset(this.w, this.h, true, this.wind);
+                }
+            }
+
+            render() {
+                for (var i = 0; i < this.totalFlakes; i++) {
+                    this.snowFlakes[i].next(this.w, this.h, this.wind, this.down);
+                }
+            }
+
+        }
+
+        new app();
+
+    </script>
+</body>
+
+</html>

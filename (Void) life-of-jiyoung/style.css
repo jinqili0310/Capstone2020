@@ -1,0 +1,27 @@
+@font-face {
+    font-family: "pixiFont";
+    src: url('assets/font.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "robotoLight";
+    src: url('assets/RobotoMono-Light.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "robotoRegular";
+    src: url('assets/RobotoMono-Regular.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "robotoMedium";
+    src: url('assets/RobotoMono-Medium.ttf') format("truetype");
+}
+
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: "robotoMedium";
+}
