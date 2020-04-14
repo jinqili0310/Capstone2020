@@ -48,7 +48,7 @@
             .add("assets/p1s3s1.png")
             .load(setup);
 
-        let s1s0, s1s1, s2s0, s2s1, s3s0, s3s1, text3;
+        let s1s0, s1s1, s2s0, s2s1, s3s0, s3s1, text3, text4, text5, text6;
 
 
         function setup() {
@@ -118,6 +118,18 @@
                 })
             ];
 
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text4 = new PIXI.Text('- What are you doing? \n  Girls should help with \n  housework!', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text4);
+                text4.x = window.innerWidth / 2 + s2s0.width / 2 + 10;
+                text4.y = window.innerHeight / 2 - text4.height / 2;
+                text4.alpha = 0;
+            }, this);
+
             s3s0 = new Sprite(resources["assets/p1s3s0.png"].texture);
             app.stage.addChild(s3s0);
             s3s0.height = window.innerHeight * 0.9;
@@ -144,6 +156,30 @@
                     s3s1.alpha = 1;
                 })
             ];
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text5 = new PIXI.Text("- Why are we doing housework \n  while Ji-seok is doing \n  nothing?", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text5);
+                text5.x = window.innerWidth / 2 - s3s0.width / 2 - text5.width - 10;
+                text5.y = window.innerHeight / 2 - text5.height / 2;
+                text5.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text6 = new PIXI.Text("- They never treat us \n  the same as boys.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text6);
+                text6.x = window.innerWidth / 2 - s3s0.width / 2 - text5.width - 10;
+                text6.y = window.innerHeight / 2 - text6.height / 2 + text5.height;
+                text6.alpha = 0;
+            }, this);
 
             // let text3 = new PIXI.Text("Click on anywhere to continue.", {
             //     font: "16px robotoMedium",
@@ -181,6 +217,9 @@
                     };
                     index += 1;
                 }, 200);
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                text4.alpha = 1;
                 bkg.interactive = false;
                 bkg2.interactive = true;
             }, this);
@@ -202,6 +241,15 @@
                     };
                     index += 1;
                 }, 200);
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s2s0.alpha = 0;
+                s2s1.alpha = 0;
+                text4.alpha = 0;
+                text5.alpha = 1;
+                setTimeout(() => {
+                    text6.alpha = 1;
+                }, 1000);
                 bkg2.interactive = false;
                 bkg3.interactive = true;
             }, this);
@@ -212,6 +260,15 @@
             bkg3.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
             bkg3.on("pointerup", function () {
                 console.log("next page 3");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s2s0.alpha = 0;
+                s2s1.alpha = 0;
+                s3s0.alpha = 0;
+                s3s1.alpha = 0;
+                text4.alpha = 0;
+                text5.alpha = 0;
+                text6.alpha = 0;
                 window.location.href = "interval1.html";
             }, this);
 
