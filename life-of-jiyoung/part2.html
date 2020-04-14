@@ -9,7 +9,391 @@
 </head>
 
 <body>
-    <h1>part2 building...</h1>
+    <script type="text/javascript">
+
+        let type = "WebGL";
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        };
+        PIXI.utils.sayHello(type);
+
+        let Application = PIXI.Application,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
+
+        let app = new Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            antialias: true,
+            transparent: false,
+            resolution: 1
+        });
+        document.body.appendChild(app.view);
+
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        app.renderer.backgroundColor = 0xffffff;
+        app.renderer.autoResize = true;
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        loader
+            .add("assets/p2s1s0.png")
+            .add("assets/p2s1s1.png")
+            .add("assets/p2s1s2.png")
+            .add("assets/p2s2s0.png")
+            .add("assets/p2s3s0.png")
+            .add("assets/p2s4s0.png")
+            .add("assets/p2s5s0.png")
+            .add("assets/p2s6s0.png")
+            .add("assets/p2s7s0.png")
+            .load(setup);
+
+        let s1s0, s1s1, s1s2, s2s0, s3s0, s4s0, s5s0, s6s0, s7s0, text3, text4, text6, text7, text8, text9, text10;
+
+
+        function setup() {
+
+            s1s0 = new Sprite(resources["assets/p2s1s0.png"].texture);
+            app.stage.addChild(s1s0);
+            s1s0.height = window.innerHeight * 0.85;
+            s1s0.width = s1s0.height;
+            s1s0.x = window.innerWidth / 2 - s1s0.width / 2;
+            s1s0.y = window.innerHeight / 2 - s1s0.height / 2;
+            s1s0.alpha = 0;
+
+            s1s1 = new Sprite(resources["assets/p2s1s1.png"].texture);
+            app.stage.addChild(s1s1);
+            s1s1.height = window.innerHeight * 0.85;
+            s1s1.width = s1s1.height;
+            s1s1.x = window.innerWidth / 2 - s1s1.width / 2;
+            s1s1.y = window.innerHeight / 2 - s1s1.height / 2;
+            s1s1.alpha = 0;
+
+            s1s2 = new Sprite(resources["assets/p2s1s2.png"].texture);
+            app.stage.addChild(s1s2);
+            s1s2.height = window.innerHeight * 0.85;
+            s1s2.width = s1s2.height;
+            s1s2.x = window.innerWidth / 2 - s1s2.width / 2;
+            s1s2.y = window.innerHeight / 2 - s1s2.height / 2;
+            s1s2.alpha = 0;
+
+            var s1Array = [
+                (() => {
+                    s1s0.alpha = 1;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 1;
+                    s1s2.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 1;
+                })
+            ];
+            var index = 0;
+            setInterval(() => {
+                if (index < s1Array.length) {
+                    //console.log(index);
+                    s1Array[index]();
+                }
+                else {
+                    index = -1;
+                };
+                index += 1;
+            }, 200);
+
+            s2s0 = new Sprite(resources["assets/p2s2s0.png"].texture);
+            app.stage.addChild(s2s0);
+            s2s0.height = window.innerHeight * 0.85;
+            s2s0.width = s2s0.height;
+            s2s0.x = window.innerWidth / 2 - s2s0.width / 2;
+            s2s0.y = window.innerHeight / 2 - s2s0.height / 2;
+            s2s0.alpha = 0;
+
+            s3s0 = new Sprite(resources["assets/p2s3s0.png"].texture);
+            app.stage.addChild(s3s0);
+            s3s0.height = window.innerHeight * 0.85;
+            s3s0.width = s3s0.height;
+            s3s0.x = window.innerWidth / 2 - s3s0.width / 2;
+            s3s0.y = window.innerHeight / 2 - s3s0.height / 2;
+            s3s0.alpha = 0;
+
+            s4s0 = new Sprite(resources["assets/p2s4s0.png"].texture);
+            app.stage.addChild(s4s0);
+            s4s0.height = window.innerHeight * 0.85;
+            s4s0.width = s4s0.height;
+            s4s0.x = window.innerWidth / 2 - s4s0.width / 2;
+            s4s0.y = window.innerHeight / 2 - s4s0.height / 2;
+            s4s0.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text4 = new PIXI.Text('- Are you alright, sweetie?', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text4);
+                text4.x = window.innerWidth / 2 + s4s0.width / 2 + 10;
+                text4.y = window.innerHeight / 2 - text4.height / 2;
+                text4.alpha = 0;
+            }, this);
+
+            s5s0 = new Sprite(resources["assets/p2s5s0.png"].texture);
+            app.stage.addChild(s5s0);
+            s5s0.height = window.innerHeight * 0.85;
+            s5s0.width = s5s0.height;
+            s5s0.x = window.innerWidth / 2 - s5s0.width / 2;
+            s5s0.y = window.innerHeight / 2 - s5s0.height / 2;
+            s5s0.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text5 = new PIXI.Text('- Umm, can I borrow your phone? \n- Sure.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text5);
+                text5.x = window.innerWidth / 2 - s5s0.width / 2 + s5s0.width + 10;
+                text5.y = window.innerHeight / 2 - text5.height / 2 + text4.height * 1.5;
+                text5.alpha = 0;
+            }, this);
+
+            s6s0 = new Sprite(resources["assets/p2s6s0.png"].texture);
+            app.stage.addChild(s6s0);
+            s6s0.height = window.innerHeight * 0.85;
+            s6s0.width = s6s0.height;
+            s6s0.x = window.innerWidth / 2 - s6s0.width / 2;
+            s6s0.y = window.innerHeight / 2 - s6s0.height / 2;
+            s6s0.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text6 = new PIXI.Text('- Dad, Can you pick me up \n  at the bus station? \n  A boy is standing behind me \n  and touching me...', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text6);
+                text6.x = window.innerWidth / 2 + s6s0.width / 2 + 10;
+                text6.y = window.innerHeight / 2 - text6.height / 2;
+                text6.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text7 = new PIXI.Text("- OK, don't worry.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text7);
+                text7.x = window.innerWidth / 2 - s6s0.width / 2 - text7.width - 10;
+                text7.y = window.innerHeight / 2 - text7.height / 2;
+                text7.alpha = 0;
+            }, this);
+
+            s7s0 = new Sprite(resources["assets/p2s7s0.png"].texture);
+            app.stage.addChild(s7s0);
+            s7s0.height = window.innerHeight * 0.85;
+            s7s0.width = s7s0.height;
+            s7s0.x = window.innerWidth / 2 - s7s0.width / 2;
+            s7s0.y = window.innerHeight / 2 - s7s0.height / 2;
+            s7s0.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text8 = new PIXI.Text('- Dad, I was so scared...', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text8);
+                text8.x = window.innerWidth / 2 + s7s0.width / 2 + 10;
+                text8.y = window.innerHeight / 2 - text8.height / 2;
+                text8.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text10 = new PIXI.Text("  This is my school uniform...", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text10);
+                text10.x = window.innerWidth / 2 + s7s0.width / 2 + 10;
+                text10.y = window.innerHeight / 2 - text10.height / 2 + text8.height;
+                text10.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text9 = new PIXI.Text("- Why did you wear that \n  short skirt? Take care of \n  yourself next time!", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text9);
+                text9.x = window.innerWidth / 2 - s7s0.width / 2 - text9.width - 10;
+                text9.y = window.innerHeight / 2 - text9.height / 2;
+                text9.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text3 = new PIXI.Text('Click anywhere to continue.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text3);
+                text3.x = window.innerWidth - text3.width - 10;
+                text3.y = 10;
+            }, this);
+
+            let bkg = new PIXI.Container();
+            app.stage.addChild(bkg);
+            bkg.interactive = true;
+            bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg.on("pointerup", function () {
+                console.log("next page");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 1;
+                bkg.interactive = false;
+                bkg2.interactive = true;
+            }, this);
+
+            let bkg2 = new PIXI.Container();
+            app.stage.addChild(bkg2);
+            bkg2.interactive = false;
+            bkg2.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg2.on("pointerup", function () {
+                console.log("next page 2");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 1;
+                bkg2.interactive = false;
+                bkg3.interactive = true;
+            }, this);
+
+            let bkg3 = new PIXI.Container();
+            app.stage.addChild(bkg3);
+            bkg3.interactive = false;
+            bkg3.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg3.on("pointerup", function () {
+                console.log("next page 3");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 0;
+                s4s0.alpha = 1;
+                text4.alpha = 1;
+                bkg3.interactive = false;
+                bkg4.interactive = true;
+            }, this);
+
+            let bkg4 = new PIXI.Container();
+            app.stage.addChild(bkg4);
+            bkg4.interactive = false;
+            bkg4.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg4.on("pointerup", function () {
+                console.log("next page 4");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 0;
+                s4s0.alpha = 0;
+                text4.alpha = 1;
+                s5s0.alpha = 1;
+                text5.alpha = 1;
+                bkg4.interactive = false;
+                bkg5.interactive = true;
+            }, this);
+
+            let bkg5 = new PIXI.Container();
+            app.stage.addChild(bkg5);
+            bkg5.interactive = false;
+            bkg5.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg5.on("pointerup", function () {
+                console.log("next page 5");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 0;
+                s4s0.alpha = 0;
+                text4.alpha = 0;
+                s5s0.alpha = 0;
+                text5.alpha = 0;
+                s6s0.alpha = 1;
+                text6.alpha = 1;
+                text7.alpha = 1;
+                bkg5.interactive = false;
+                bkg6.interactive = true;
+            }, this);
+
+            let bkg6 = new PIXI.Container();
+            app.stage.addChild(bkg6);
+            bkg6.interactive = false;
+            bkg6.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg6.on("pointerup", function () {
+                console.log("next page 6");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 0;
+                s4s0.alpha = 0;
+                text4.alpha = 0;
+                s5s0.alpha = 0;
+                text5.alpha = 0;
+                s6s0.alpha = 0;
+                text6.alpha = 0;
+                text7.alpha = 0;
+                s7s0.alpha = 1;
+                text8.alpha = 1;
+                setTimeout(() => {
+                    text9.alpha = 1;
+                }, 1000);
+                setTimeout(() => {
+                    text10.alpha = 1;
+                }, 2000);
+                bkg6.interactive = false;
+                bkg7.interactive = true;
+            }, this);
+
+            let bkg7 = new PIXI.Container();
+            app.stage.addChild(bkg7);
+            bkg7.interactive = false;
+            bkg7.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg7.on("pointerup", function () {
+                console.log("next page 7");
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s2s0.alpha = 0;
+                s3s0.alpha = 0;
+                s4s0.alpha = 0;
+                text4.alpha = 0;
+                s5s0.alpha = 0;
+                text5.alpha = 0;
+                s6s0.alpha = 0;
+                s7s0.alpha = 0;
+                text8.alpha = 0;
+                text9.alpha = 0;
+                text10.alpha = 0;
+                window.location.href = "interval2.html";
+                bkg7.interactive = false;
+            }, this);
+
+        }
+
+    </script>
 </body>
 
 </html>

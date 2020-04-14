@@ -171,12 +171,12 @@
                 this.resize = utils.debounce(() => { this.resizeScene(); }, 100);
                 window.addEventListener("resize", () => { this.resize(); });
 
-                this.info = new PIXI.Text("Click on anywhere to continue.", {
+                this.info = new PIXI.Text("Click anywhere to continue.", {
                     font: '16px robotoMedium',
                     fill: 0xFFFFFF
                 });
-                this.info.x = window.innerWidth - this.info.width;
-                this.info.y = 0;
+                this.info.x = window.innerWidth - this.info.width - 10;
+                this.info.y = 10;
 
                 var jyArray = [
                     (() => {
@@ -296,7 +296,7 @@
                 this.bkg.interactive = true;
                 this.bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
                 this.bkg.on("pointerup", function () {
-                    window.location.href = "part2.html";
+                    window.location.href = "part3.html";
                 }, this);
 
                 this.initStats();
