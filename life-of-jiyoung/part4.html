@@ -752,7 +752,7 @@
                 text3 = new PIXI.Text('Click anywhere to continue.', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
-                    fill: 0xf0f0f0
+                    fill: 0x000000
                 });
                 app.stage.addChild(text3);
                 text3.x = window.innerWidth - text3.width - 10;
@@ -827,7 +827,7 @@
             }, this);
 
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                ment30 = new PIXI.Text("Somehow, Ji-young’s mother-in-law\nknows that her son is going to\ntake a parental leave.\nShe calls Ji-young and is mad\nabout her, saying: 'Why\ndo you let my son take care\nof the baby? He has a good\ncareer and he wont get promoted\nif he takes a long leave!\nYou should stay home and\ntake care of the family,\nwhich is what a wife should do!'", {
+                ment30 = new PIXI.Text("Somehow, Ji-young’s mother-in-law\nknows that her son is going to take\na parental leave. She calls Ji-young\nand is mad about her, saying: 'Why\ndo you let my son take care of\nthe baby? He has a good job and\nhe wont get promoted if he takes\na long leave! You should stay\nhome and take care of the family,\nwhich is what a wife should do!'", {
                     fontFamily: 'robotoMedium',
                     fontSize: 22,
                     fill: 0x000000,
@@ -839,6 +839,11 @@
                 ment30.alpha = 0;
             }, this);
 
+
+            let bkg0 = new PIXI.Container();
+            app.stage.addChild(bkg0);
+            bkg0.interactive = false;
+            bkg0.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
 
             var index1 = 0;
             var interval1 = setInterval(() => {
@@ -871,7 +876,7 @@
                 }, 150);
                 bubble2.alpha = 0;
                 text1.alpha = 0;
-            }, 1500);
+            }, 1800);
 
             var interval3;
             setTimeout(() => {
@@ -892,7 +897,7 @@
                     index3 += 1;
                 }, 150);
 
-            }, 3000);
+            }, 3500);
 
             var interval4;
             setTimeout(() => {
@@ -914,7 +919,7 @@
                     };
                     index4 += 1;
                 }, 150);
-            }, 4500);
+            }, 5500);
 
             setTimeout(() => {
                 clearInterval(interval4);
@@ -940,7 +945,7 @@
                 bubble6.buttonMode = true;
                 bubble7.interactive = true;
                 bubble7.buttonMode = true;
-            }, 6400);
+            }, 8000);
 
             var buttonAction = [(() => {
                 Wbg.alpha = 1;
@@ -991,7 +996,7 @@
                     ment10.alpha = 0;
                     ment2.alpha = 1;
                     ment20.alpha = 0.5;
-                }, 2000);
+                }, 3000);
 
                 setTimeout(() => {
                     ment1.alpha = 0;
@@ -1000,17 +1005,19 @@
                     ment20.alpha = 0;
                     ment3.alpha = 1;
                     ment30.alpha = 0.5;
-                }, 5000);
+                    text3.alpha = 1;
+                    bkg0.interactive = true;
+                }, 8000);
 
-                setTimeout(() => {
-                    ment1.alpha = 0;
-                    ment10.alpha = 0;
-                    ment2.alpha = 0;
-                    ment20.alpha = 0;
-                    ment3.alpha = 0;
-                    ment30.alpha = 0;
-                    window.location.href = "end.html";
-                }, 9000);
+                // setTimeout(() => {
+                //     ment1.alpha = 0;
+                //     ment10.alpha = 0;
+                //     ment2.alpha = 0;
+                //     ment20.alpha = 0;
+                //     ment3.alpha = 0;
+                //     ment30.alpha = 0;
+                //     window.location.href = "end.html";
+                // }, 18000);
             }),
             (() => {
                 //right
@@ -1043,7 +1050,7 @@
                     ment10.alpha = 0;
                     ment2.alpha = 0.5;
                     ment20.alpha = 1;
-                }, 2000);
+                }, 3000);
 
                 setTimeout(() => {
                     ment1.alpha = 0;
@@ -1052,29 +1059,36 @@
                     ment20.alpha = 0;
                     ment3.alpha = 0.5;
                     ment30.alpha = 1;
-                }, 5000);
+                    text3.alpha = 1;
+                    bkg0.interactive = true;
+                }, 8000);
 
-                setTimeout(() => {
-                    ment1.alpha = 0;
-                    ment10.alpha = 0;
-                    ment2.alpha = 0;
-                    ment20.alpha = 0;
-                    ment3.alpha = 0;
-                    ment30.alpha = 0;
-                    window.location.href = "end.html";
-                }, 9000);
+                // setTimeout(() => {
+                //     ment1.alpha = 0;
+                //     ment10.alpha = 0;
+                //     ment2.alpha = 0;
+                //     ment20.alpha = 0;
+                //     ment3.alpha = 0;
+                //     ment30.alpha = 0;
+                //     window.location.href = "end.html";
+                // }, 10000);
             })];
+
+            bkg0.on("pointerup", function () {
+                console.log("end page");
+                window.location.href = "end.html";
+            }, this);
 
             bubble6.on("pointerup", function () {
                 console.log("left");
                 buttonAction[0]();
                 buttonAction[1]();
-            });
+            }, this);
             bubble7.on("pointerup", function () {
                 console.log("right");
                 buttonAction[0]();
                 buttonAction[2]();
-            })
+            }, this);
 
         }
 
