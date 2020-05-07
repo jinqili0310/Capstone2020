@@ -179,7 +179,7 @@
                 this.info.y = 10;
 
                 this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
-                this.intro = new PIXI.Text("hello, \nthis is data part", {
+                this.intro = new PIXI.Text("Sexual harassment is reported as a serious issue especially\nin East Asian countries.\n\nIn March 2015, South Korea's Education Ministry released\nupdated sex education curriculum guidelines for public\nschools. According to the Korea Herald, which saw the full\nteaching manuals in 2015, they include women not paying for\ntheir meals on dates as a possible reason for date rape.\n\nAlso, according to a report entitled 'Space, Body, and\nNeglected Women - A Survey of Sexual Harassment in Bus\nby 1000 Women', in a survey of 1,000 women in Beijing,\n26.6% of them have experienced sexual harassment on\nbuses, and the proportion of sexual harassment in public\nplaces is 39.1%.", {
                     font: '22px robotoMedium',
                     align: 'center',
                     fill: 0x000000
@@ -189,23 +189,15 @@
                 this.arrow.alpha = 1;
                 this.arrow.width = 40;
                 this.arrow.height = 30;
-                this.introBG.width = this.intro.width + 40;
-                this.introBG.height = this.intro.height + 60 + this.arrow.height;
-                this.cage = new PIXI.Container();
-                this.cage.addChild(this.intro, this.introBG, this.arrow);
-                this.cage.name = "intro";
-                this.cage.intro = this.intro;
-                this.cage.introBG = this.introBG;
-                this.cage.arrow = this.arrow;
+                this.introBG.width = this.intro.width + 100;
+                this.introBG.height = this.intro.height + 80 + this.arrow.height;
 
                 this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
-                this.introBG.y = window.innerHeight / 3;
+                this.introBG.y = window.innerHeight / 2 - this.introBG.height / 2;
                 this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
-                this.intro.y = window.innerHeight / 3 + 20;
+                this.intro.y = this.introBG.y + 40;
                 this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
-                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
-                this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
-                this.cage.y = window.innerHeight / 3;
+                this.arrow.y = this.introBG.y + 60 + this.intro.height;
 
                 this.bkg = new PIXI.Container();
                 this.pixi.stage.addChild(this.bkg);
@@ -222,7 +214,6 @@
                     console.log("ok");
                     this.intro.alpha = 0;
                     this.introBG.alpha = 0;
-                    this.cage.alpha = 0;
                     this.arrow.alpha = 0;
                     this.bkg.interactive = true;
                 }), "0"];
@@ -347,7 +338,6 @@
                 this.pixi.stage.addChild(this.introBG);
                 this.pixi.stage.addChild(this.intro);
                 this.pixi.stage.addChild(this.arrow);
-                this.pixi.stage.addChild(this.cage);
 
                 this.initStats();
                 this.initDatGui();

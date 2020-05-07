@@ -84,7 +84,8 @@
                 this.loader = new PIXI.loaders.Loader()
                     .add("snowflake", "assets/snow.png")
                     .add("jy", "assets/jy.json")
-                    .add("arrow", "assets/arrow.png");
+                    .add("arrow", "assets/arrow.png")
+                    .add("chart3", "assets/chart3.png");
                 this.loader
                     .load((loader, assets) => { this.init(loader, assets); });
             }
@@ -179,33 +180,29 @@
                 this.info.y = 10;
 
                 this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
-                this.intro = new PIXI.Text("hello, \nthis is data part", {
+                this.intro = new PIXI.Text("According to Corporate Women Directors International,\na report on women board directors of Asia-Pacific\ncompanies in 2017, Women are vastly underrepresented\nin the boardrooms of leading companies across 20\neconomies in the Asia-Pacific region.", {
                     font: '22px robotoMedium',
                     align: 'center',
                     fill: 0x000000
                 });
+                this.chart3 = new PIXI.Sprite(assets.chart3.texture);
                 this.introBG.alpha = 0.95;
                 this.arrow = new PIXI.Sprite(assets.arrow.texture);
                 this.arrow.alpha = 1;
                 this.arrow.width = 40;
                 this.arrow.height = 30;
-                this.introBG.width = this.intro.width + 40;
-                this.introBG.height = this.intro.height + 60 + this.arrow.height;
-                this.cage = new PIXI.Container();
-                this.cage.addChild(this.intro, this.introBG, this.arrow);
-                this.cage.name = "intro";
-                this.cage.intro = this.intro;
-                this.cage.introBG = this.introBG;
-                this.cage.arrow = this.arrow;
-
+                this.introBG.width = this.intro.width + 100;
                 this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
-                this.introBG.y = window.innerHeight / 3;
+                this.chart3.height = (this.introBG.width * 0.8 * this.chart3.height) / this.chart3.width;
+                this.chart3.width = this.introBG.width * 0.8;
+                this.introBG.height = this.intro.height + 160 + this.arrow.height + this.chart3.height;
                 this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
-                this.intro.y = window.innerHeight / 3 + 20;
+                this.chart3.x = window.innerWidth / 2 - this.chart3.width / 2;
                 this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
-                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
-                this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
-                this.cage.y = window.innerHeight / 3;
+                this.introBG.y = window.innerHeight / 2 - this.introBG.height / 2;
+                this.intro.y = this.introBG.y + 40;
+                this.chart3.y = this.intro.y + this.intro.height + 20;
+                this.arrow.y = this.chart3.y + this.chart3.height + 60;
 
                 this.bkg = new PIXI.Container();
                 this.pixi.stage.addChild(this.bkg);
@@ -222,7 +219,7 @@
                     console.log("ok");
                     this.intro.alpha = 0;
                     this.introBG.alpha = 0;
-                    this.cage.alpha = 0;
+                    this.chart3.alpha = 0;
                     this.arrow.alpha = 0;
                     this.bkg.interactive = true;
                 }), "0"];
@@ -347,7 +344,7 @@
                 this.pixi.stage.addChild(this.introBG);
                 this.pixi.stage.addChild(this.intro);
                 this.pixi.stage.addChild(this.arrow);
-                this.pixi.stage.addChild(this.cage);
+                this.pixi.stage.addChild(this.chart3);
 
                 this.initStats();
                 this.initDatGui();

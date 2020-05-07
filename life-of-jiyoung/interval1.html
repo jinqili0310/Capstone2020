@@ -84,7 +84,8 @@
                 this.loader = new PIXI.loaders.Loader()
                     .add("snowflake", "assets/snow.png")
                     .add("jy", "assets/jy.json")
-                    .add("arrow", "assets/arrow.png");
+                    .add("arrow", "assets/arrow.png")
+                    .add("chart1", "assets/chart1.png");
                 this.loader
                     .load((loader, assets) => { this.init(loader, assets); });
             }
@@ -179,33 +180,43 @@
                 this.info.y = 10;
 
                 this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
-                this.intro = new PIXI.Text("hello, \nthis is data part", {
-                    font: '22px robotoMedium',
+                this.intro = new PIXI.Text("Son preference is a common issue in East and South Asia\nand is strong enough to result in the gender discrimination\nin these countries[1]. Below is a chart indicating the\njuvenile sex ratios in some of the countries.", {
+                    font: '20px robotoMedium',
                     align: 'center',
                     fill: 0x000000
                 });
+                this.intro2 = new PIXI.Text("The reasons given for son preference could be the stringent\nfertility regulation in China, patriarchal family systems and\nlow female autonomy in South Korea, and Confucian values\nin East Asian countries[1].", {
+                    font: '20px robotoMedium',
+                    align: 'center',
+                    fill: 0x000000
+                });
+                this.intro3 = new PIXI.Text("[1] Das Gupta, Monica; Zhenghua, Jiang; Bohua, Li; Zhenming, Xie; Chung, Woojin; Hwa-Ok, Bae. 2002. Why is Son\nPreference so Persistent in East and South Asia? A Cross-Country Study of China, India, and the Republic of Korea.\nPolicy Research Working Paper;No. 2942. World Bank, Washington, DC. © World Bank.\nhttps://openknowledge.worldbank.org/handle/10986/19191 License: CC BY 3.0 IGO.", {
+                    font: '10px robotoMedium',
+                    align: 'center',
+                    fill: 0x000000
+                });
+                this.chart1 = new PIXI.Sprite(assets.chart1.texture);
                 this.introBG.alpha = 0.95;
                 this.arrow = new PIXI.Sprite(assets.arrow.texture);
                 this.arrow.alpha = 1;
                 this.arrow.width = 40;
                 this.arrow.height = 30;
-                this.introBG.width = this.intro.width + 40;
-                this.introBG.height = this.intro.height + 60 + this.arrow.height;
-                this.cage = new PIXI.Container();
-                this.cage.addChild(this.intro, this.introBG, this.arrow);
-                this.cage.name = "intro";
-                this.cage.intro = this.intro;
-                this.cage.introBG = this.introBG;
-                this.cage.arrow = this.arrow;
-
+                this.introBG.width = this.intro.width + 100;
                 this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
-                this.introBG.y = window.innerHeight / 3;
+                this.chart1.height = (this.introBG.width * 0.6 * this.chart1.height) / this.chart1.width;
+                this.chart1.width = this.introBG.width * 0.6;
+                this.introBG.height = this.intro.height + 280 + this.arrow.height + this.chart1.height;
                 this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
-                this.intro.y = window.innerHeight / 3 + 20;
+                this.intro2.x = window.innerWidth / 2 - this.intro2.width / 2;
+                this.intro3.x = window.innerWidth / 2 - this.intro3.width / 2;
+                this.chart1.x = window.innerWidth / 2 - this.chart1.width / 2;
                 this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
-                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
-                this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
-                this.cage.y = window.innerHeight / 3;
+                this.introBG.y = window.innerHeight / 2 - this.introBG.height / 2;
+                this.intro.y = this.introBG.y + 40;
+                this.chart1.y = this.intro.y + this.intro.height + 20;
+                this.intro2.y = this.chart1.y + 20 + this.chart1.height;
+                this.intro3.y = this.intro2.y + 20 + this.intro2.height;
+                this.arrow.y = this.chart1.y + this.chart1.height + 60 + this.intro2.height + this.intro3.height;
 
                 this.bkg = new PIXI.Container();
                 this.pixi.stage.addChild(this.bkg);
@@ -222,8 +233,10 @@
                     console.log("ok");
                     this.intro.alpha = 0;
                     this.introBG.alpha = 0;
-                    this.cage.alpha = 0;
                     this.arrow.alpha = 0;
+                    this.chart1.alpha = 0;
+                    this.intro2.alpha = 0;
+                    this.intro3.alpha = 0;
                     this.bkg.interactive = true;
                 }), "0"];
                 this.arrow.on("pointerup", function () {
@@ -347,7 +360,9 @@
                 this.pixi.stage.addChild(this.introBG);
                 this.pixi.stage.addChild(this.intro);
                 this.pixi.stage.addChild(this.arrow);
-                this.pixi.stage.addChild(this.cage);
+                this.pixi.stage.addChild(this.chart1);
+                this.pixi.stage.addChild(this.intro2);
+                this.pixi.stage.addChild(this.intro3);
 
                 this.initStats();
                 this.initDatGui();

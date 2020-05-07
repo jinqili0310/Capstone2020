@@ -230,6 +230,10 @@
             bkg.interactive = true;
             bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
             bkg.on("pointerup", function () {
+                // s1s0.alpha = 0;
+                // s1s1.alpha = 0;
+                text4.alpha = 1;
+                bubble1.alpha = 1;
                 console.log("next page");
                 var index = 0;
                 setInterval(() => {
@@ -242,10 +246,7 @@
                     };
                     index += 1;
                 }, 200);
-                s1s0.alpha = 0;
-                s1s1.alpha = 0;
-                text4.alpha = 1;
-                bubble1.alpha = 1;
+
                 bkg.interactive = false;
                 bkg2.interactive = true;
             }, this);
@@ -256,6 +257,14 @@
             bkg2.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
             bkg2.on("pointerup", function () {
                 console.log("next page 2");
+                // s1s0.alpha = 0;
+                // s1s1.alpha = 0;
+                // s2s0.alpha = 0;
+                // s2s1.alpha = 0;
+                text4.alpha = 0;
+                bubble1.alpha = 0;
+                text5.alpha = 1;
+                bubble2.alpha = 1;
                 var index = 0;
                 setInterval(() => {
                     if (index < s3Array.length) {
@@ -267,14 +276,7 @@
                     };
                     index += 1;
                 }, 200);
-                s1s0.alpha = 0;
-                s1s1.alpha = 0;
-                s2s0.alpha = 0;
-                s2s1.alpha = 0;
-                text4.alpha = 0;
-                bubble1.alpha = 0;
-                text5.alpha = 1;
-                bubble2.alpha = 1;
+
                 setTimeout(() => {
                     text6.alpha = 1;
                     bubble3.alpha = 1;

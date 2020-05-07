@@ -198,18 +198,18 @@
                 this.info.y = 10;
 
                 this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
-                this.intro = new PIXI.Text("hello, \nthis is introduction part", {
+                this.intro = new PIXI.Text("Ji-young is a girl borned and raised in South Korea.\nShe is one of the most ordinary girls in that country.\nShe grows up experiencing all the things that would\nhappen to a girl in East Asian countries.\n\nIn the following pages, you will see some moments in\nJi-young‘s life. And you will be making choices for\nJi-young. Also, some related data and research will\nbe presented.\n\nNow let’s get started!", {
                     font: '22px robotoMedium',
                     align: 'center',
-                    fill: 0x333333
+                    fill: 0x000000
                 });
-                this.introBG.alpha = 0.7;
+                this.introBG.alpha = 0.95;
                 this.arrow = new PIXI.Sprite(assets.arrow.texture);
                 this.arrow.alpha = 1;
                 this.arrow.width = 40;
                 this.arrow.height = 30;
-                this.introBG.width = this.intro.width + 40;
-                this.introBG.height = this.intro.height + 60 + this.arrow.height;
+                this.introBG.width = this.intro.width + 100;
+                this.introBG.height = this.intro.height + 80 + this.arrow.height;
                 this.cage = new PIXI.Container();
                 this.cage.addChild(this.intro, this.introBG, this.arrow);
                 this.cage.name = "intro";
@@ -220,9 +220,9 @@
                 this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
                 this.introBG.y = window.innerHeight / 3;
                 this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
-                this.intro.y = window.innerHeight / 3 + 20;
+                this.intro.y = window.innerHeight / 3 + 40;
                 this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
-                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
+                this.arrow.y = window.innerHeight / 3 + 60 + this.intro.height;
                 this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
                 this.cage.y = window.innerHeight / 3;
 
