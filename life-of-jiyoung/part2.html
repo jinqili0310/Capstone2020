@@ -33,7 +33,7 @@
 
         app.renderer.view.style.position = "absolute";
         app.renderer.view.style.display = "block";
-        app.renderer.backgroundColor = 0xffffff;
+        app.renderer.backgroundColor = 0x000000;
         app.renderer.autoResize = true;
         app.renderer.resize(window.innerWidth, window.innerHeight);
 
@@ -47,16 +47,19 @@
             .add("assets/p2s5s0.png")
             .add("assets/p2s6s0.png")
             .add("assets/p2s7s0.png")
+            .add("assets/dialog.png")
             .load(setup);
 
-        let s1s0, s1s1, s1s2, s2s0, s3s0, s4s0, s5s0, s6s0, s7s0, text3, text4, text6, text7, text8, text9, text10;
+        let s1s0, s1s1, s1s2, s2s0, s3s0, s4s0, s5s0, s6s0, s7s0,
+            text3, text4, text6, text7, text8, text9, text10, text50, select0, select1, select2,
+            bubble6, selectBG, bubble7;
 
 
         function setup() {
 
             s1s0 = new Sprite(resources["assets/p2s1s0.png"].texture);
             app.stage.addChild(s1s0);
-            s1s0.height = window.innerHeight * 0.85;
+            s1s0.height = window.innerHeight * 0.75;
             s1s0.width = s1s0.height;
             s1s0.x = window.innerWidth / 2 - s1s0.width / 2;
             s1s0.y = window.innerHeight / 2 - s1s0.height / 2;
@@ -64,7 +67,7 @@
 
             s1s1 = new Sprite(resources["assets/p2s1s1.png"].texture);
             app.stage.addChild(s1s1);
-            s1s1.height = window.innerHeight * 0.85;
+            s1s1.height = window.innerHeight * 0.75;
             s1s1.width = s1s1.height;
             s1s1.x = window.innerWidth / 2 - s1s1.width / 2;
             s1s1.y = window.innerHeight / 2 - s1s1.height / 2;
@@ -72,7 +75,7 @@
 
             s1s2 = new Sprite(resources["assets/p2s1s2.png"].texture);
             app.stage.addChild(s1s2);
-            s1s2.height = window.innerHeight * 0.85;
+            s1s2.height = window.innerHeight * 0.75;
             s1s2.width = s1s2.height;
             s1s2.x = window.innerWidth / 2 - s1s2.width / 2;
             s1s2.y = window.innerHeight / 2 - s1s2.height / 2;
@@ -109,7 +112,7 @@
 
             s2s0 = new Sprite(resources["assets/p2s2s0.png"].texture);
             app.stage.addChild(s2s0);
-            s2s0.height = window.innerHeight * 0.85;
+            s2s0.height = window.innerHeight * 0.75;
             s2s0.width = s2s0.height;
             s2s0.x = window.innerWidth / 2 - s2s0.width / 2;
             s2s0.y = window.innerHeight / 2 - s2s0.height / 2;
@@ -117,7 +120,7 @@
 
             s3s0 = new Sprite(resources["assets/p2s3s0.png"].texture);
             app.stage.addChild(s3s0);
-            s3s0.height = window.innerHeight * 0.85;
+            s3s0.height = window.innerHeight * 0.75;
             s3s0.width = s3s0.height;
             s3s0.x = window.innerWidth / 2 - s3s0.width / 2;
             s3s0.y = window.innerHeight / 2 - s3s0.height / 2;
@@ -125,47 +128,137 @@
 
             s4s0 = new Sprite(resources["assets/p2s4s0.png"].texture);
             app.stage.addChild(s4s0);
-            s4s0.height = window.innerHeight * 0.85;
+            s4s0.height = window.innerHeight * 0.75;
             s4s0.width = s4s0.height;
             s4s0.x = window.innerWidth / 2 - s4s0.width / 2;
             s4s0.y = window.innerHeight / 2 - s4s0.height / 2;
             s4s0.alpha = 0;
 
+            var bubble1 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble1);
+            bubble1.width = bubble1.width * 0.65;
+            bubble1.height = bubble1.height * 0.65;
+            bubble1.x = window.innerWidth / 2 + s4s0.width / 2 - 200;
+            bubble1.y = window.innerHeight / 2 - bubble1.height * 0.7;
+            bubble1.alpha = 0;
+
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                text4 = new PIXI.Text('- Are you alright, sweetie?', {
+                text4 = new PIXI.Text('Are you alright, \nsweetie?', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
                     fill: 0x000000
                 });
                 app.stage.addChild(text4);
-                text4.x = window.innerWidth / 2 + s4s0.width / 2 + 10;
-                text4.y = window.innerHeight / 2 - text4.height / 2;
+                text4.x = bubble1.x + (bubble1.width / 2 - text4.width / 2);
+                text4.y = bubble1.y + (bubble1.height / 2 - text4.height / 2);
                 text4.alpha = 0;
+            }, this);
+
+            selectBG = new PIXI.Sprite(PIXI.Texture.WHITE);
+            selectBG.tint = 0x000000;
+            app.stage.addChild(selectBG);
+            selectBG.alpha = 0;
+            selectBG.width = s4s0.width;
+            selectBG.height = s4s0.height;
+            selectBG.x = s4s0.x;
+            selectBG.y = s4s0.y;
+
+            bubble6 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble6);
+            bubble6.x = window.innerWidth / 2 - bubble6.width / 2;
+            bubble6.alpha = 0;
+
+            bubble7 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble7);
+            bubble7.x = window.innerWidth / 2 - bubble7.width / 2;
+            bubble7.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+
+                select0 = new PIXI.Text('Please select an answer for Ji-young from below:', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0xf0f0f0
+                });
+                app.stage.addChild(select0);
+                select0.x = window.innerWidth / 2 - select0.width / 2;
+                select0.y = selectBG.y + 150;
+                select0.alpha = 0;
+
+                bubble6.y = select0.y + select0.height + 50;
+                bubble7.y = bubble6.y + bubble6.height + 50;
+
+                select1 = new PIXI.Text("I'm fine. Thanks.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                app.stage.addChild(select1);
+                select1.x = bubble6.x + (bubble6.width / 2 - select1.width / 2);
+                select1.y = bubble6.y + (bubble6.height / 2 - select1.height / 2);
+                select1.alpha = 0;
+
+                select2 = new PIXI.Text("Umm, not really.\nCan I borrow your phone?", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                app.stage.addChild(select2);
+                select2.x = bubble7.x + (bubble7.width / 2 - select2.width / 2);
+                select2.y = bubble7.y + (bubble7.height / 2 - select2.height / 2);
+                select2.alpha = 0;
+
             }, this);
 
             s5s0 = new Sprite(resources["assets/p2s5s0.png"].texture);
             app.stage.addChild(s5s0);
-            s5s0.height = window.innerHeight * 0.85;
+            s5s0.height = window.innerHeight * 0.75;
             s5s0.width = s5s0.height;
             s5s0.x = window.innerWidth / 2 - s5s0.width / 2;
             s5s0.y = window.innerHeight / 2 - s5s0.height / 2;
             s5s0.alpha = 0;
 
+            var bubble2 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble2);
+            bubble2.width = bubble2.width * 0.75;
+            bubble2.height = bubble2.height * 0.75;
+            bubble2.x = window.innerWidth / 2 - s3s0.width / 2 + bubble2.width + 50;
+            bubble2.y = window.innerHeight / 2 - bubble2.height * 1.5;
+            bubble2.alpha = 0;
+
+            var bubble3 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble3);
+            bubble3.width = bubble3.width * 0.6;
+            bubble3.height = bubble3.height * 0.6;
+            bubble3.x = window.innerWidth / 2 + s5s0.width / 2 - 200;
+            bubble3.y = window.innerHeight / 2 - bubble3.height * 0.7;
+            bubble3.alpha = 0;
+
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                text5 = new PIXI.Text('- Umm, can I borrow your phone? \n- Sure.', {
+                text5 = new PIXI.Text('Umm, not really. \nCan I borrow your phone?', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
                     fill: 0x000000
                 });
                 app.stage.addChild(text5);
-                text5.x = window.innerWidth / 2 - s5s0.width / 2 + s5s0.width + 10;
-                text5.y = window.innerHeight / 2 - text5.height / 2 + text4.height * 1.5;
+                text5.x = bubble2.x + (bubble2.width / 2 - text5.width / 2);
+                text5.y = bubble2.y + (bubble2.height / 2 - text5.height / 2);
                 text5.alpha = 0;
+
+                text50 = new PIXI.Text('Sure. Here you are.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text50);
+                text50.x = bubble3.x + (bubble3.width / 2 - text50.width / 2);
+                text50.y = bubble3.y + (bubble3.height / 2 - text50.height / 2);
+                text50.alpha = 0;
             }, this);
 
             s6s0 = new Sprite(resources["assets/p2s6s0.png"].texture);
             app.stage.addChild(s6s0);
-            s6s0.height = window.innerHeight * 0.85;
+            s6s0.height = window.innerHeight * 0.75;
             s6s0.width = s6s0.height;
             s6s0.x = window.innerWidth / 2 - s6s0.width / 2;
             s6s0.y = window.innerHeight / 2 - s6s0.height / 2;
@@ -175,7 +268,7 @@
                 text6 = new PIXI.Text('- Dad, Can you pick me up \n  at the bus station? \n  A boy is standing behind me \n  and touching me...', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
-                    fill: 0x000000
+                    fill: 0xf0f0f0
                 });
                 app.stage.addChild(text6);
                 text6.x = window.innerWidth / 2 + s6s0.width / 2 + 10;
@@ -187,7 +280,7 @@
                 text7 = new PIXI.Text("- OK, don't worry.", {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
-                    fill: 0x000000
+                    fill: 0xf0f0f0
                 });
                 app.stage.addChild(text7);
                 text7.x = window.innerWidth / 2 - s6s0.width / 2 - text7.width - 10;
@@ -197,45 +290,61 @@
 
             s7s0 = new Sprite(resources["assets/p2s7s0.png"].texture);
             app.stage.addChild(s7s0);
-            s7s0.height = window.innerHeight * 0.85;
+            s7s0.height = window.innerHeight * 0.75;
             s7s0.width = s7s0.height;
             s7s0.x = window.innerWidth / 2 - s7s0.width / 2;
             s7s0.y = window.innerHeight / 2 - s7s0.height / 2;
             s7s0.alpha = 0;
 
+            var bubble4 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble4);
+            bubble4.width = bubble4.width * 0.65;
+            bubble4.height = bubble4.height * 0.65;
+            bubble4.x = window.innerWidth / 2 + s7s0.width / 2 - 150;
+            bubble4.y = window.innerHeight / 2 - bubble4.height * 1.5;
+            bubble4.alpha = 0;
+
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                text8 = new PIXI.Text('- Dad, I was so scared...', {
+                text8 = new PIXI.Text('Dad, I was so scared\n...', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
                     fill: 0x000000
                 });
                 app.stage.addChild(text8);
-                text8.x = window.innerWidth / 2 + s7s0.width / 2 + 10;
-                text8.y = window.innerHeight / 2 - text8.height / 2;
+                text8.x = bubble4.x + (bubble4.width / 2 - text8.width / 2);
+                text8.y = bubble4.y + (bubble4.height / 2 - text8.height / 2);
                 text8.alpha = 0;
             }, this);
 
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                text10 = new PIXI.Text("  This is my school uniform...", {
+                text10 = new PIXI.Text("This is my school \nuniform...", {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
                     fill: 0x000000
                 });
                 app.stage.addChild(text10);
-                text10.x = window.innerWidth / 2 + s7s0.width / 2 + 10;
-                text10.y = window.innerHeight / 2 - text10.height / 2 + text8.height;
+                text10.x = bubble4.x + (bubble4.width / 2 - text10.width / 2);
+                text10.y = bubble4.y + (bubble4.height / 2 - text10.height / 2);
                 text10.alpha = 0;
             }, this);
 
+            var bubble5 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble5);
+            bubble5.width = bubble5.width * 0.8;
+            bubble5.height = bubble5.height * 0.8;
+            bubble5.x = window.innerWidth / 2 - s7s0.width / 2 - bubble5.width + 20;
+            bubble5.y = window.innerHeight / 2 - bubble5.height / 1.5;
+            bubble5.alpha = 0;
+
             document.fonts.load("16px 'robotoMedium'").then(() => {
-                text9 = new PIXI.Text("- Why did you wear that \n  short skirt? Take care of \n  yourself next time!", {
+                text9 = new PIXI.Text("Why did you wear that\nshort skirt? Take care of\nyourself next time!", {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
                     fill: 0x000000
                 });
                 app.stage.addChild(text9);
-                text9.x = window.innerWidth / 2 - s7s0.width / 2 - text9.width - 10;
-                text9.y = window.innerHeight / 2 - text9.height / 2;
+                text9.x = bubble5.x + (bubble5.width / 2 - text9.width / 2);
+                text9.y = bubble5.y + (bubble5.height / 2 - text9.height / 2);
                 text9.alpha = 0;
             }, this);
 
@@ -243,7 +352,7 @@
                 text3 = new PIXI.Text('Click anywhere to continue.', {
                     fontFamily: 'robotoMedium',
                     fontSize: 16,
-                    fill: 0x000000
+                    fill: 0xf0f0f0
                 });
                 app.stage.addChild(text3);
                 text3.x = window.innerWidth - text3.width - 10;
@@ -292,28 +401,97 @@
                 s3s0.alpha = 0;
                 s4s0.alpha = 1;
                 text4.alpha = 1;
+                bubble1.alpha = 1;
                 bkg3.interactive = false;
-                bkg4.interactive = true;
+                setTimeout(() => {
+                    bubble6.interactive = true;
+                    bubble6.buttonMode = true;
+                    bubble7.interactive = true;
+                    bubble7.buttonMode = true;
+                    selectBG.alpha = 1;
+                    select0.alpha = 1;
+                    select1.alpha = 1;
+                    select2.alpha = 1;
+                    bubble6.alpha = 1;
+                    bubble7.alpha = 1;
+                    text4.alpha = 0;
+                    bubble1.alpha = 0;
+                }, 1000);
+
+                //bkg4.interactive = false;
             }, this);
 
-            let bkg4 = new PIXI.Container();
-            app.stage.addChild(bkg4);
-            bkg4.interactive = false;
-            bkg4.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
-            bkg4.on("pointerup", function () {
-                console.log("next page 4");
+            var buttonAction = [(() => {
+                window.location.href = "interval2.html";
+            }),
+            (() => {
+                //bkg4.interactive = true;
                 s1s0.alpha = 0;
                 s1s1.alpha = 0;
                 s1s2.alpha = 0;
                 s2s0.alpha = 0;
                 s3s0.alpha = 0;
                 s4s0.alpha = 0;
-                text4.alpha = 1;
+                text4.alpha = 0;
+                bubble1.alpha = 0;
                 s5s0.alpha = 1;
                 text5.alpha = 1;
-                bkg4.interactive = false;
+                bubble2.alpha = 1;
+                selectBG.alpha = 0;
+                select0.alpha = 0;
+                select1.alpha = 0;
+                select2.alpha = 0;
+                bubble6.alpha = 0;
+                bubble7.alpha = 0;
+                bubble6.interactive = false;
+                bubble6.buttonMode = false;
+                bubble7.interactive = false;
+                bubble7.buttonMode = false;
+                setTimeout(() => {
+                    text5.alpha = 0;
+                    bubble2.alpha = 0;
+                    text50.alpha = 1;
+                    bubble3.alpha = 1;
+                }, 750);
+                //bkg4.interactive = false;
                 bkg5.interactive = true;
-            }, this);
+            })];
+
+            bubble6.on("pointerup", function () {
+                console.log("go to data");
+                buttonAction[0]();
+            });
+            bubble7.on("pointerup", function () {
+                console.log("bkg4");
+                buttonAction[1]();
+            });
+
+            // let bkg4 = new PIXI.Container();
+            // app.stage.addChild(bkg4);
+            // bkg4.interactive = false;
+            // bkg4.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            // bkg4.on("pointerup", function () {
+            //     console.log("next page 4");
+            //     s1s0.alpha = 0;
+            //     s1s1.alpha = 0;
+            //     s1s2.alpha = 0;
+            //     s2s0.alpha = 0;
+            //     s3s0.alpha = 0;
+            //     s4s0.alpha = 0;
+            //     text4.alpha = 0;
+            //     bubble1.alpha = 0;
+            //     s5s0.alpha = 1;
+            //     text5.alpha = 1;
+            //     bubble2.alpha = 1;
+            //     setTimeout(() => {
+            //         text5.alpha = 0;
+            //         bubble2.alpha = 0;
+            //         text50.alpha = 1;
+            //         bubble3.alpha = 1;
+            //     }, 800);
+            //     bkg4.interactive = false;
+            //     bkg5.interactive = true;
+            // }, this);
 
             let bkg5 = new PIXI.Container();
             app.stage.addChild(bkg5);
@@ -328,11 +506,25 @@
                 s3s0.alpha = 0;
                 s4s0.alpha = 0;
                 text4.alpha = 0;
+                bubble1.alpha = 0;
                 s5s0.alpha = 0;
                 text5.alpha = 0;
+                bubble2.alpha = 0;
+                text50.alpha = 0;
+                bubble3.alpha = 0;
                 s6s0.alpha = 1;
                 text6.alpha = 1;
                 text7.alpha = 1;
+                selectBG.alpha = 0;
+                select0.alpha = 0;
+                select1.alpha = 0;
+                select2.alpha = 0;
+                bubble6.alpha = 0;
+                bubble7.alpha = 0;
+                bubble6.interactive = false;
+                bubble6.buttonMode = false;
+                bubble7.interactive = false;
+                bubble7.buttonMode = false;
                 bkg5.interactive = false;
                 bkg6.interactive = true;
             }, this);
@@ -352,15 +544,31 @@
                 text4.alpha = 0;
                 s5s0.alpha = 0;
                 text5.alpha = 0;
+                bubble2.alpha = 0;
+                text50.alpha = 0;
+                bubble3.alpha = 0;
                 s6s0.alpha = 0;
                 text6.alpha = 0;
                 text7.alpha = 0;
                 s7s0.alpha = 1;
                 text8.alpha = 1;
+                bubble4.alpha = 1;
+                selectBG.alpha = 0;
+                select0.alpha = 0;
+                select1.alpha = 0;
+                select2.alpha = 0;
+                bubble6.alpha = 0;
+                bubble7.alpha = 0;
+                bubble6.interactive = false;
+                bubble6.buttonMode = false;
+                bubble7.interactive = false;
+                bubble7.buttonMode = false;
                 setTimeout(() => {
                     text9.alpha = 1;
+                    bubble5.alpha = 1;
                 }, 1000);
                 setTimeout(() => {
+                    text8.alpha = 0;
                     text10.alpha = 1;
                 }, 2000);
                 bkg6.interactive = false;
@@ -382,11 +590,26 @@
                 text4.alpha = 0;
                 s5s0.alpha = 0;
                 text5.alpha = 0;
+                bubble2.alpha = 0;
+                text50.alpha = 0;
+                bubble3.alpha = 0;
                 s6s0.alpha = 0;
                 s7s0.alpha = 0;
                 text8.alpha = 0;
                 text9.alpha = 0;
+                bubble4.alpha = 0;
                 text10.alpha = 0;
+                bubble5.alpha = 0;
+                selectBG.alpha = 0;
+                select0.alpha = 0;
+                select1.alpha = 0;
+                select2.alpha = 0;
+                bubble6.alpha = 0;
+                bubble7.alpha = 0;
+                bubble6.interactive = false;
+                bubble6.buttonMode = false;
+                bubble7.interactive = false;
+                bubble7.buttonMode = false;
                 window.location.href = "interval2.html";
                 bkg7.interactive = false;
             }, this);

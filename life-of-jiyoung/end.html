@@ -171,66 +171,33 @@
                 this.resize = utils.debounce(() => { this.resizeScene(); }, 100);
                 window.addEventListener("resize", () => { this.resize(); });
 
-                this.info = new PIXI.Text("Click anywhere to continue.", {
-                    font: '16px robotoMedium',
-                    fill: 0xFFFFFF
-                });
-                this.info.x = window.innerWidth - this.info.width - 10;
-                this.info.y = 10;
-
                 this.introBG = new PIXI.Sprite(PIXI.Texture.WHITE);
-                this.intro = new PIXI.Text("hello, \nthis is data part", {
-                    font: '22px robotoMedium',
+                this.intro = new PIXI.Text("Thank you for playing!", {
+                    font: '40px robotoMedium',
                     align: 'center',
                     fill: 0x000000
                 });
                 this.introBG.alpha = 0.95;
-                this.arrow = new PIXI.Sprite(assets.arrow.texture);
-                this.arrow.alpha = 1;
-                this.arrow.width = 40;
-                this.arrow.height = 30;
                 this.introBG.width = this.intro.width + 40;
-                this.introBG.height = this.intro.height + 60 + this.arrow.height;
+                this.introBG.height = this.intro.height + 40;
                 this.cage = new PIXI.Container();
-                this.cage.addChild(this.intro, this.introBG, this.arrow);
+                this.cage.addChild(this.intro, this.introBG);
                 this.cage.name = "intro";
                 this.cage.intro = this.intro;
                 this.cage.introBG = this.introBG;
-                this.cage.arrow = this.arrow;
 
                 this.introBG.x = window.innerWidth / 2 - this.introBG.width / 2;
-                this.introBG.y = window.innerHeight / 3;
+                this.introBG.y = window.innerHeight / 2 - this.introBG.height / 2;
                 this.intro.x = window.innerWidth / 2 - this.intro.width / 2;
-                this.intro.y = window.innerHeight / 3 + 20;
-                this.arrow.x = window.innerWidth / 2 - this.arrow.width / 2;
-                this.arrow.y = window.innerHeight / 3 + 40 + this.intro.height;
+                this.intro.y = window.innerHeight / 2 - this.introBG.height / 2 + 20;
                 this.cage.x = window.innerWidth / 2 - this.cage.width / 2;
                 this.cage.y = window.innerHeight / 3;
 
-                this.bkg = new PIXI.Container();
-                this.pixi.stage.addChild(this.bkg);
-                this.bkg.interactive = false;
-                this.bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
-                this.bkg.on("pointerup", function () {
-                    window.location.href = "part2.html";
-                }, this);
-
-                this.arrow.interactive = true;
-                this.arrow.buttonMode = true;
-
-                var hideMent = [(() => {
-                    console.log("ok");
-                    this.intro.alpha = 0;
+                setTimeout(() => {
                     this.introBG.alpha = 0;
+                    this.intro.alpha = 0;
                     this.cage.alpha = 0;
-                    this.arrow.alpha = 0;
-                    this.bkg.interactive = true;
-                }), "0"];
-                this.arrow.on("pointerup", function () {
-                    console.log("haha");
-                    hideMent[0]();
-                });
-
+                }, 4000);
 
                 var jyArray = [
                     (() => {
@@ -343,10 +310,8 @@
                 this.pixi.stage.addChild(this.jy7);
                 this.pixi.stage.addChild(this.jy8);
                 this.pixi.stage.addChild(this.sprites);
-                this.pixi.stage.addChild(this.info);
                 this.pixi.stage.addChild(this.introBG);
                 this.pixi.stage.addChild(this.intro);
-                this.pixi.stage.addChild(this.arrow);
                 this.pixi.stage.addChild(this.cage);
 
                 this.initStats();

@@ -9,7 +9,424 @@
 </head>
 
 <body>
-    <h1>part3 building...</h1>
+    <!-- <canvas></canvas> -->
+    <script type="text/javascript">
+
+        let type = "WebGL";
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        };
+        PIXI.utils.sayHello(type);
+
+        let Application = PIXI.Application,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
+
+        let app = new Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            antialias: true,
+            transparent: false,
+            resolution: 1
+        });
+        document.body.appendChild(app.view);
+
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        app.renderer.backgroundColor = 0x000000;
+        app.renderer.autoResize = true;
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        loader
+            .add("snowflake", "assets/snow.png")
+            .add("assets/p3s1s0.png")
+            .add("assets/p3s1s1.png")
+            .add("assets/p3s1s2.png")
+            .add("assets/p3s1s3.png")
+            .add("assets/p3s2s0.png")
+            .add("assets/p3s3s0.png")
+            .add("assets/p3s3s1.png")
+            .add("assets/p3s3s2.png")
+            .add("assets/dialog.png")
+            .load(setup);
+
+        let s1s0, s1s1, s1s2, s1s3, s2s0, s3s0, s3s1, s3s2, text3, text4, text5, text6, bubble1, bubble2,
+            selectBG, hideBG, select0, select1, select2, bubble3, bubble4;
+
+
+        function setup() {
+
+            s1s0 = new Sprite(resources["assets/p3s1s0.png"].texture);
+            app.stage.addChild(s1s0);
+            s1s0.height = window.innerHeight * 0.8;
+            s1s0.width = s1s0.height;
+            s1s0.x = window.innerWidth / 2 - s1s0.width / 2;
+            s1s0.y = window.innerHeight / 2 - s1s0.height / 2;
+            s1s0.alpha = 0;
+
+            s1s1 = new Sprite(resources["assets/p3s1s1.png"].texture);
+            app.stage.addChild(s1s1);
+            s1s1.height = window.innerHeight * 0.8;
+            s1s1.width = s1s1.height;
+            s1s1.x = window.innerWidth / 2 - s1s1.width / 2;
+            s1s1.y = window.innerHeight / 2 - s1s1.height / 2;
+            s1s1.alpha = 0;
+
+            s1s2 = new Sprite(resources["assets/p3s1s2.png"].texture);
+            app.stage.addChild(s1s2);
+            s1s2.height = window.innerHeight * 0.8;
+            s1s2.width = s1s2.height;
+            s1s2.x = window.innerWidth / 2 - s1s2.width / 2;
+            s1s2.y = window.innerHeight / 2 - s1s2.height / 2;
+            s1s2.alpha = 0;
+
+            s1s3 = new Sprite(resources["assets/p3s1s3.png"].texture);
+            app.stage.addChild(s1s3);
+            s1s3.height = window.innerHeight * 0.8;
+            s1s3.width = s1s3.height;
+            s1s3.x = window.innerWidth / 2 - s1s3.width / 2;
+            s1s3.y = window.innerHeight / 2 - s1s3.height / 2;
+            s1s3.alpha = 0;
+
+            var s1Array = [
+                (() => {
+                    s1s0.alpha = 1;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 0;
+                    s1s3.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 1;
+                    s1s2.alpha = 0;
+                    s1s3.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 1;
+                    s1s3.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 0;
+                    s1s3.alpha = 1;
+                })
+            ];
+            var index = 0;
+            setInterval(() => {
+                if (index < s1Array.length) {
+                    //console.log(index);
+                    s1Array[index]();
+                }
+                else {
+                    index = -1;
+                };
+                index += 1;
+            }, 300);
+
+            hideBG = new PIXI.Sprite(PIXI.Texture.WHITE);
+            hideBG.tint = 0x000000;
+            app.stage.addChild(hideBG);
+            hideBG.alpha = 0;
+            hideBG.width = s1s0.width;
+            hideBG.height = s1s0.height;
+            hideBG.x = s1s0.x;
+            hideBG.y = s1s0.y;
+
+            s2s0 = new Sprite(resources["assets/p3s2s0.png"].texture);
+            app.stage.addChild(s2s0);
+            s2s0.height = window.innerHeight * 0.8;
+            s2s0.width = s2s0.height;
+            s2s0.x = window.innerWidth / 2 - s2s0.width / 2;
+            s2s0.y = window.innerHeight / 2 - s2s0.height / 2;
+            s2s0.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text4 = new PIXI.Text("PROMOTION ANNOUNCEMENT\nIM JAE-HWAN\nHAN SEONG-HO\nLEE MIN-SOO\nKIM TAE-WOO", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0xf0f0f0,
+                    align: "center"
+                });
+                app.stage.addChild(text4);
+                text4.x = window.innerWidth / 2 + s2s0.width / 2 + 10;
+                text4.y = window.innerHeight / 2 - text4.height;
+                text4.alpha = 0;
+            }, this);
+
+            s3s0 = new Sprite(resources["assets/p3s3s0.png"].texture);
+            app.stage.addChild(s3s0);
+            s3s0.height = window.innerHeight * 0.8;
+            s3s0.width = s3s0.height;
+            s3s0.x = window.innerWidth / 2 - s3s0.width / 2;
+            s3s0.y = window.innerHeight / 2 - s3s0.height / 2;
+            s3s0.alpha = 0;
+
+            s3s1 = new Sprite(resources["assets/p3s3s1.png"].texture);
+            app.stage.addChild(s3s1);
+            s3s1.height = window.innerHeight * 0.8;
+            s3s1.width = s3s1.height;
+            s3s1.x = window.innerWidth / 2 - s3s1.width / 2;
+            s3s1.y = window.innerHeight / 2 - s3s1.height / 2;
+            s3s1.alpha = 0;
+
+            s3s2 = new Sprite(resources["assets/p3s3s2.png"].texture);
+            //app.stage.addChild(s3s2);
+            s3s2.height = window.innerHeight * 0.8;
+            s3s2.width = s3s2.height;
+            s3s2.x = window.innerWidth / 2 - s3s2.width / 2;
+            s3s2.y = window.innerHeight / 2 - s3s2.height / 2;
+            s3s2.alpha = 0;
+
+            var s3Array1 = [
+                (() => {
+                    s3s0.alpha = 1;
+                    s3s1.alpha = 0;
+                    //s3s2.alpha = 0;
+                }),
+                (() => {
+                    s3s0.alpha = 0;
+                    s3s1.alpha = 1;
+                    //s3s2.alpha = 0;
+                })
+            ];
+            var s3Array2 = [
+                (() => {
+                    s3s0.alpha = 1;
+                    s3s1.alpha = 0;
+                    s3s2.alpha = 0;
+                }),
+                (() => {
+                    s3s0.alpha = 0;
+                    s3s1.alpha = 0;
+                    s3s2.alpha = 1;
+                })
+            ];
+
+            bubble1 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble1);
+            bubble1.width = bubble1.width * 0.9;
+            bubble1.height = bubble1.height * 0.9;
+            bubble1.x = window.innerWidth / 2 + s2s0.width / 2 - 100;
+            bubble1.y = window.innerHeight / 2 - bubble1.height;
+            bubble1.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text5 = new PIXI.Text("Manager, I'm just wondering\nwhy I didn't get promoted.\nI worked so hard...", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text5);
+                text5.x = bubble1.x + (bubble1.width / 2 - text5.width / 2);
+                text5.y = bubble1.y + (bubble1.height / 2 - text5.height / 2);
+                text5.alpha = 0;
+            }, this);
+
+            bubble2 = new Sprite(resources["assets/dialog.png"].texture);
+            //app.stage.addChild(bubble2);
+            bubble2.width = bubble2.width * 1.2;
+            bubble2.height = bubble2.height * 1.2;
+            bubble2.x = window.innerWidth / 2 - s2s0.width / 2 - 250;
+            bubble2.y = window.innerHeight / 2 - bubble2.height * 1.5;
+            bubble2.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text6 = new PIXI.Text("I know you work harder than that\nguy in our team but it’s good\nfor you to stay in your position.\nWomen at your age will get married\nand have babies in a few years.\nYou won’t have time for work then.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                //app.stage.addChild(text6);
+                text6.x = bubble2.x + (bubble2.width / 2 - text6.width / 2);
+                text6.y = bubble2.y + (bubble2.height / 2 - text6.height / 2);
+                text6.alpha = 0;
+            }, this);
+
+            selectBG = new PIXI.Sprite(PIXI.Texture.WHITE);
+            selectBG.tint = 0x000000;
+            //app.stage.addChild(selectBG);
+            selectBG.alpha = 0;
+            selectBG.width = s3s0.width;
+            selectBG.height = s3s0.height;
+            selectBG.x = s3s0.x;
+            selectBG.y = s3s0.y;
+
+            bubble6 = new Sprite(resources["assets/dialog.png"].texture);
+            //app.stage.addChild(bubble6);
+            bubble6.width = bubble6.width * 1.5;
+            bubble6.height = bubble6.height * 1.5;
+            bubble6.x = window.innerWidth / 2 - bubble6.width / 2;
+            bubble6.alpha = 0;
+
+            bubble7 = new Sprite(resources["assets/dialog.png"].texture);
+            //app.stage.addChild(bubble7);
+            bubble7.x = window.innerWidth / 2 - bubble7.width / 2;
+            bubble7.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+
+                select0 = new PIXI.Text('Please select an answer for Ji-young from below:', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0xf0f0f0
+                });
+                //app.stage.addChild(select0);
+                select0.x = window.innerWidth / 2 - select0.width / 2;
+                select0.y = selectBG.y + 150;
+                select0.alpha = 0;
+
+                bubble6.y = select0.y + select0.height + 50;
+                bubble7.y = bubble6.y + bubble6.height + 50;
+
+                select1 = new PIXI.Text("But I really want to build my\ncareer and I'm so disappointed at\nbeing treated unequally. I'm sorry\nI can't work with you any more.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                //app.stage.addChild(select1);
+                select1.x = bubble6.x + (bubble6.width / 2 - select1.width / 2);
+                select1.y = bubble6.y + (bubble6.height / 2 - select1.height / 2);
+                select1.alpha = 0;
+
+                select2 = new PIXI.Text("Maybe you're right.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                //app.stage.addChild(select2);
+                select2.x = bubble7.x + (bubble7.width / 2 - select2.width / 2);
+                select2.y = bubble7.y + (bubble7.height / 2 - select2.height / 2);
+                select2.alpha = 0;
+
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text3 = new PIXI.Text('Click anywhere to continue.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0xf0f0f0
+                });
+                app.stage.addChild(text3);
+                text3.x = window.innerWidth - text3.width - 10;
+                text3.y = 10;
+            }, this);
+
+            let bkg = new PIXI.Container();
+            app.stage.addChild(bkg);
+            bkg.interactive = true;
+            bkg.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg.on("pointerup", function () {
+                console.log("next page");
+                hideBG.alpha = 1;
+                s2s0.alpha = 1;
+                text4.alpha = 1;
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s1s3.alpha = 0;
+                s3s0.alpha = 0;
+                s3s1.alpha = 0;
+                s3s2.alpha = 0;
+                bkg.interactive = false;
+                bkg2.interactive = true;
+            }, this);
+
+            let bkg2 = new PIXI.Container();
+            app.stage.addChild(bkg2);
+            bkg2.interactive = false;
+            bkg2.hitArea = new PIXI.Rectangle(0, 0, window.innerWidth, window.innerHeight);
+            bkg2.on("pointerup", function () {
+                console.log("next page 2");
+                hideBG.alpha = 1;
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                s1s3.alpha = 0;
+                s2s0.alpha = 0;
+                text4.alpha = 0;
+                bubble1.alpha = 1;
+                text5.alpha = 1;
+                var index1 = 0;
+                var interval1 = setInterval(() => {
+                    if (index1 < s3Array1.length) {
+                        //console.log(index);
+                        s3Array1[index1]();
+                    }
+                    else {
+                        index1 = -1;
+                    };
+                    index1 += 1;
+                }, 150);
+
+                setTimeout(() => {
+                    //s3s1.alpha = 0;
+                    clearInterval(interval1);
+                    app.stage.addChild(s3s2);
+                    app.stage.addChild(bubble2);
+                    app.stage.addChild(text6);
+                    bubble2.alpha = 1;
+                    text6.alpha = 1;
+                    var index2 = 0;
+                    setInterval(() => {
+                        if (index2 < s3Array2.length) {
+                            //console.log(index);
+                            s3Array2[index2]();
+                        }
+                        else {
+                            index2 = -1;
+                        };
+                        index2 += 1;
+                    }, 150);
+                    bubble1.alpha = 0;
+                    text5.alpha = 0;
+                }, 1600);
+                setTimeout(() => {
+                    s3s0.alpha = 1;
+                    s3s2.alpha = 0;
+                    bubble2.alpha = 0;
+                    text6.alpha = 0;
+                    app.stage.addChild(selectBG);
+                    app.stage.addChild(bubble6);
+                    app.stage.addChild(bubble7);
+                    app.stage.addChild(select0);
+                    app.stage.addChild(select1);
+                    app.stage.addChild(select2);
+
+                    selectBG.alpha = 1;
+                    select0.alpha = 1;
+                    select1.alpha = 1;
+                    select2.alpha = 1;
+                    bubble6.alpha = 1;
+                    bubble7.alpha = 1;
+                    bubble6.interactive = true;
+                    bubble6.buttonMode = true;
+                    bubble7.interactive = true;
+                    bubble7.buttonMode = true;
+                }, 5600);
+                bkg2.interactive = false;
+            }, this);
+
+            var buttonAction = [(() => {
+                window.location.href = "interval3.html";
+            }),
+            (() => { })];
+
+            bubble6.on("pointerup", function () {
+                console.log("go to data");
+                buttonAction[0]();
+            });
+            bubble7.on("pointerup", function () {
+                console.log("go to data");
+                buttonAction[0]();
+            })
+
+        }
+
+    </script>
 </body>
 
 </html>

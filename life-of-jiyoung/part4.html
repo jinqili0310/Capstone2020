@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Part 4</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="library/pixi.min.js"></script>
+</head>
+
+<body>
+    <!-- <canvas></canvas> -->
+    <script type="text/javascript">
+
+        let type = "WebGL";
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        };
+        PIXI.utils.sayHello(type);
+
+        let Application = PIXI.Application,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
+
+        let app = new Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            antialias: true,
+            transparent: false,
+            resolution: 1
+        });
+        document.body.appendChild(app.view);
+
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        app.renderer.backgroundColor = 0x000000;
+        app.renderer.autoResize = true;
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        loader
+            .add("snowflake", "assets/snow.png")
+            .add("assets/p4s1s0.png")
+            .add("assets/p4s1s1.png")
+            .add("assets/p4s1s2.png")
+            .add("assets/dialog.png")
+            .add("assets/left1.png")
+            .add("assets/left2.png")
+            .add("assets/right1.png")
+            .add("assets/right2.png")
+            .add("assets/road1.png")
+            .add("assets/road2.png")
+            .add("assets/road3.png")
+            .add("assets/road4.png")
+            .add("assets/road5.png")
+            .add("assets/road6.png")
+            .add("assets/road7.png")
+            .add("assets/road8.png")
+            .load(setup);
+
+        let s1s0, s1s1, s1s2, text3, text4, text5, text6, bubble1, bubble2, left1, left2, right1, right2,
+            road1, road2, road3, road4, road5, road6, road7, road8,
+            road10, road20, road30, road40, road50, road60, road70, road80,
+            selectBG, hideBG, select0, select1, select2, bubble3, bubble4,
+            ment1, ment2, ment3, ment4, ment5, ment6, ment10, ment20, ment30, ment40, ment50, ment60;
+
+
+        function setup() {
+
+            s1s0 = new Sprite(resources["assets/p4s1s0.png"].texture);
+            app.stage.addChild(s1s0);
+            s1s0.height = window.innerHeight * 0.75;
+            s1s0.width = s1s0.height;
+            s1s0.x = window.innerWidth / 2 - s1s0.width / 2;
+            s1s0.y = window.innerHeight / 2 - s1s0.height / 2;
+            s1s0.alpha = 0;
+
+            s1s1 = new Sprite(resources["assets/p4s1s1.png"].texture);
+            app.stage.addChild(s1s1);
+            s1s1.height = window.innerHeight * 0.75;
+            s1s1.width = s1s1.height;
+            s1s1.x = window.innerWidth / 2 - s1s1.width / 2;
+            s1s1.y = window.innerHeight / 2 - s1s1.height / 2;
+            s1s1.alpha = 0;
+
+            s1s2 = new Sprite(resources["assets/p4s1s2.png"].texture);
+            s1s2.height = window.innerHeight * 0.75;
+            s1s2.width = s1s2.height;
+            app.stage.addChild(s1s2);
+            s1s2.x = window.innerWidth / 2 - s1s2.width / 2;
+            s1s2.y = window.innerHeight / 2 - s1s2.height / 2;
+            s1s2.alpha = 0;
+
+            var s1Array1 = [
+                (() => {
+                    s1s0.alpha = 1;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 1;
+                    s1s2.alpha = 0;
+                })
+            ];
+
+            var s1Array2 = [
+                (() => {
+                    s1s0.alpha = 1;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 0;
+                }),
+                (() => {
+                    s1s0.alpha = 0;
+                    s1s1.alpha = 0;
+                    s1s2.alpha = 1;
+                })
+            ];
+
+            bubble1 = new Sprite(resources["assets/dialog.png"].texture);
+            bubble1.width = bubble1.width * 0.7;
+            bubble1.height = bubble1.height * 0.7;
+            bubble1.x = window.innerWidth / 2 + s1s0.width / 2 - 80;
+            bubble1.y = window.innerHeight / 2 - bubble1.height * 1.7;
+            bubble1.alpha = 0;
+            app.stage.addChild(bubble1);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text2 = new PIXI.Text("OMG! Let's have a\nfamily, babe.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                text2.x = bubble1.x + (bubble1.width / 2 - text2.width / 2);
+                text2.y = bubble1.y + (bubble1.height / 2 - text2.height / 2);
+                text2.alpha = 0;
+                app.stage.addChild(text2);
+            }, this);
+
+            bubble2 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble2);
+            bubble2.width = bubble2.width * 0.7;
+            bubble2.height = bubble2.height * 0.7;
+            bubble2.x = window.innerWidth / 2 - s1s0.width / 2 - 50;
+            bubble2.y = window.innerHeight / 2 - bubble2.height * 1.5;
+            bubble2.alpha = 1;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text1 = new PIXI.Text("Babe, I'm pregnant...", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text1);
+                text1.x = bubble2.x + (bubble2.width / 2 - text1.width / 2);
+                text1.y = bubble2.y + (bubble2.height / 2 - text1.height / 2);
+                text1.alpha = 1;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text5 = new PIXI.Text("Wait. But I got a new\njob and I want to work.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text5);
+                text5.x = bubble2.x + (bubble2.width / 2 - text5.width / 2);
+                text5.y = bubble2.y + (bubble2.height / 2 - text5.height / 2);
+                text5.alpha = 0;
+            }, this);
+
+            bubble3 = new Sprite(resources["assets/dialog.png"].texture);
+            app.stage.addChild(bubble3);
+            bubble3.width = bubble3.width * 0.82;
+            bubble3.height = bubble3.height * 0.82;
+            bubble3.x = window.innerWidth / 2 + s1s0.width / 2 - 80;
+            bubble3.y = window.innerHeight / 2 - bubble3.height * 1.7;
+            bubble3.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text4 = new PIXI.Text("No, you don't have to.\nI'm working hard for our\nfamily and we'll be happy.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0x000000
+                });
+                app.stage.addChild(text4);
+                text4.x = bubble3.x + (bubble3.width / 2 - text4.width / 2);
+                text4.y = bubble3.y + (bubble3.height / 2 - text4.height / 2);
+                text4.alpha = 0;
+            }, this);
+
+            selectBG = new PIXI.Sprite(PIXI.Texture.WHITE);
+            selectBG.tint = 0x000000;
+            //app.stage.addChild(selectBG);
+            selectBG.alpha = 0;
+            selectBG.width = s1s0.width;
+            selectBG.height = s1s0.height;
+            selectBG.x = s1s0.x;
+            selectBG.y = s1s0.y;
+
+            bubble6 = new Sprite(resources["assets/dialog.png"].texture);
+            //app.stage.addChild(bubble6);
+            bubble6.width = bubble6.width;
+            bubble6.height = bubble6.height;
+            bubble6.x = window.innerWidth / 2 - bubble6.width / 2;
+            bubble6.alpha = 0;
+
+            bubble7 = new Sprite(resources["assets/dialog.png"].texture);
+            //app.stage.addChild(bubble7);
+            bubble7.x = window.innerWidth / 2 - bubble7.width / 2;
+            bubble7.alpha = 0;
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+
+                select0 = new PIXI.Text('Please make a choice for Ji-young from below:', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0xf0f0f0
+                });
+                //app.stage.addChild(select0);
+                select0.x = window.innerWidth / 2 - select0.width / 2;
+                select0.y = selectBG.y + 150;
+                select0.alpha = 0;
+
+                bubble6.y = select0.y + select0.height + 50;
+                bubble7.y = bubble6.y + bubble6.height + 50;
+
+                select1 = new PIXI.Text("Give up the child and\naccept the new job.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                //app.stage.addChild(select1);
+                select1.x = bubble6.x + (bubble6.width / 2 - select1.width / 2);
+                select1.y = bubble6.y + (bubble6.height / 2 - select1.height / 2);
+                select1.alpha = 0;
+
+                select2 = new PIXI.Text("Get married and give up\nthe job.", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000
+                });
+                //app.stage.addChild(select2);
+                select2.x = bubble7.x + (bubble7.width / 2 - select2.width / 2);
+                select2.y = bubble7.y + (bubble7.height / 2 - select2.height / 2);
+                select2.alpha = 0;
+
+            }, this);
+
+            var Wbg = new PIXI.Sprite(PIXI.Texture.WHITE);
+            Wbg.tint = 0xf0f0f0;
+            Wbg.x = 0;
+            Wbg.y = 0;
+            Wbg.width = window.innerWidth;
+            Wbg.height = window.innerHeight;
+            app.stage.addChild(Wbg);
+            Wbg.alpha = 0;
+
+            road1 = new PIXI.Sprite(resources["assets/road1.png"].texture);
+            road1.height = window.innerHeight * 0.5;
+            road1.width = road1.height;
+            road1.x = window.innerWidth / 2 - road1.width;
+            //road1.x = s1s0.x;
+            road1.y = s1s0.y;
+            app.stage.addChild(road1);
+
+            road2 = new PIXI.Sprite(resources["assets/road2.png"].texture);
+            road2.height = window.innerHeight * 0.5;
+            road2.width = road2.height;
+            road2.x = window.innerWidth / 2 - road2.width;
+            road2.y = s1s0.y;
+            app.stage.addChild(road2);
+
+            road3 = new PIXI.Sprite(resources["assets/road3.png"].texture);
+            road3.height = window.innerHeight * 0.5;
+            road3.width = road3.height;
+            road3.x = window.innerWidth / 2 - road3.width;
+            road3.y = s1s0.y;
+            app.stage.addChild(road3);
+
+            road4 = new PIXI.Sprite(resources["assets/road4.png"].texture);
+            road4.height = window.innerHeight * 0.5;
+            road4.width = road4.height;
+            road4.x = window.innerWidth / 2 - road4.width;
+            road4.y = s1s0.y;
+            app.stage.addChild(road4);
+
+            road5 = new PIXI.Sprite(resources["assets/road5.png"].texture);
+            road5.height = window.innerHeight * 0.5;
+            road5.width = road5.height;
+            road5.x = window.innerWidth / 2 - road5.width;
+            road5.y = s1s0.y;
+            app.stage.addChild(road5);
+
+            road6 = new PIXI.Sprite(resources["assets/road6.png"].texture);
+            road6.height = window.innerHeight * 0.5;
+            road6.width = road6.height;
+            road6.x = window.innerWidth / 2 - road6.width;
+            road6.y = s1s0.y;
+            app.stage.addChild(road6);
+
+            road7 = new PIXI.Sprite(resources["assets/road7.png"].texture);
+            road7.height = window.innerHeight * 0.5;
+            road7.width = road7.height;
+            road7.x = window.innerWidth / 2 - road7.width;
+            road7.y = s1s0.y;
+            app.stage.addChild(road7);
+
+            road8 = new PIXI.Sprite(resources["assets/road8.png"].texture);
+            road8.height = window.innerHeight * 0.5;
+            road8.width = road8.height;
+            road8.x = window.innerWidth / 2 - road8.width;
+            road8.y = s1s0.y;
+            app.stage.addChild(road8);
+
+
+
+            road10 = new PIXI.Sprite(resources["assets/road1.png"].texture);
+            road10.height = window.innerHeight * 0.5;
+            road10.width = road10.height;
+            road10.x = window.innerWidth / 2;
+            //road10.x = s1s0.x;
+            road10.y = s1s0.y;
+            app.stage.addChild(road10);
+
+            road20 = new PIXI.Sprite(resources["assets/road2.png"].texture);
+            road20.height = window.innerHeight * 0.5;
+            road20.width = road20.height;
+            road20.x = window.innerWidth / 2;
+            road20.y = s1s0.y;
+            app.stage.addChild(road20);
+
+            road30 = new PIXI.Sprite(resources["assets/road3.png"].texture);
+            road30.height = window.innerHeight * 0.5;
+            road30.width = road30.height;
+            road30.x = window.innerWidth / 2;
+            road30.y = s1s0.y;
+            app.stage.addChild(road30);
+
+            road40 = new PIXI.Sprite(resources["assets/road4.png"].texture);
+            road40.height = window.innerHeight * 0.5;
+            road40.width = road40.height;
+            road40.x = window.innerWidth / 2;
+            road40.y = s1s0.y;
+            app.stage.addChild(road40);
+
+            road50 = new PIXI.Sprite(resources["assets/road5.png"].texture);
+            road50.height = window.innerHeight * 0.5;
+            road50.width = road50.height;
+            road50.x = window.innerWidth / 2;
+            road50.y = s1s0.y;
+            app.stage.addChild(road50);
+
+            road60 = new PIXI.Sprite(resources["assets/road6.png"].texture);
+            road60.height = window.innerHeight * 0.5;
+            road60.width = road60.height;
+            road60.x = window.innerWidth / 2;
+            road60.y = s1s0.y;
+            app.stage.addChild(road60);
+
+            road70 = new PIXI.Sprite(resources["assets/road7.png"].texture);
+            road70.height = window.innerHeight * 0.5;
+            road70.width = road70.height;
+            road70.x = window.innerWidth / 2;
+            road70.y = s1s0.y;
+            app.stage.addChild(road70);
+
+            road80 = new PIXI.Sprite(resources["assets/road8.png"].texture);
+            road80.height = window.innerHeight * 0.5;
+            road80.width = road80.height;
+            road80.x = window.innerWidth / 2;
+            road80.y = s1s0.y;
+            app.stage.addChild(road80);
+
+            road1.alpha = 0;
+            road2.alpha = 0;
+            road3.alpha = 0;
+            road4.alpha = 0;
+            road5.alpha = 0;
+            road6.alpha = 0;
+            road7.alpha = 0;
+            road8.alpha = 0;
+            road10.alpha = 0;
+            road20.alpha = 0;
+            road30.alpha = 0;
+            road40.alpha = 0;
+            road50.alpha = 0;
+            road60.alpha = 0;
+            road70.alpha = 0;
+            road80.alpha = 0;
+
+            var roadArrayL = [
+                (() => {
+                    road1.alpha = 1;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0.5;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 1;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0.5;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 1;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0.5;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 1;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0.5;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 1;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0.5;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 1;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0.5;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 1;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0.5;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 1;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0.5;
+                })
+            ]
+
+            var roadArrayR = [
+                (() => {
+                    road1.alpha = 0.5;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 1;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0.5;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 1;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0.5;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 1;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0.5;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 1;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0.5;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 1;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0.5;
+                    road7.alpha = 0;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 1;
+                    road70.alpha = 0;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0.5;
+                    road8.alpha = 0;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 1;
+                    road80.alpha = 0;
+                }),
+                (() => {
+                    road1.alpha = 0;
+                    road2.alpha = 0;
+                    road3.alpha = 0;
+                    road4.alpha = 0;
+                    road5.alpha = 0;
+                    road6.alpha = 0;
+                    road7.alpha = 0;
+                    road8.alpha = 0.5;
+                    road10.alpha = 0;
+                    road20.alpha = 0;
+                    road30.alpha = 0;
+                    road40.alpha = 0;
+                    road50.alpha = 0;
+                    road60.alpha = 0;
+                    road70.alpha = 0;
+                    road80.alpha = 1;
+                })
+            ]
+
+
+            left1 = new PIXI.Sprite(resources["assets/left1.png"].texture);
+            left1.width = left1.width / 3;
+            left1.height = left1.width;
+            left1.x = road1.x + road1.width / 2 - left1.width / 2;
+            left1.y = road1.y + road1.width / 2 - left1.height / 2;
+            app.stage.addChild(left1);
+
+            left2 = new PIXI.Sprite(resources["assets/left2.png"].texture);
+            left2.width = left2.width / 3;
+            left2.height = left2.width;
+            left2.x = road1.x + road1.width / 2 - left2.width / 2;
+            left2.y = road1.y + road1.width / 2 - left2.height / 2;
+            app.stage.addChild(left2);
+
+            right1 = new PIXI.Sprite(resources["assets/right1.png"].texture);
+            right1.width = right1.width / 3;
+            right1.height = right1.width;
+            right1.x = road10.x + road10.width / 2 - right1.width / 2;
+            right1.y = road10.y + road10.width / 2 - right1.height / 2;
+            app.stage.addChild(right1);
+
+            right2 = new PIXI.Sprite(resources["assets/right2.png"].texture);
+            right2.width = right2.width / 3;
+            right2.height = right2.width;
+            right2.x = road10.x + road10.width / 2 - right2.width / 2;
+            right2.y = road10.y + road10.width / 2 - right2.height / 2;
+            app.stage.addChild(right2);
+
+            left1.alpha = 0;
+            left2.alpha = 0;
+            right1.alpha = 0;
+            right2.alpha = 0;
+
+            var s2Array = [
+                (() => {
+                    left1.alpha = 1;
+                    right1.alpha = 0.5;
+                    left2.alpha = 0;
+                    right2.alpha = 0;
+                }),
+                (() => {
+                    left1.alpha = 0;
+                    right1.alpha = 0;
+                    left2.alpha = 1;
+                    right2.alpha = 0.5;
+                }),
+            ]
+
+            var s3Array = [
+                (() => {
+                    left1.alpha = 0.5;
+                    right1.alpha = 1;
+                    left2.alpha = 0;
+                    right2.alpha = 0;
+                }),
+                (() => {
+                    left1.alpha = 0;
+                    right1.alpha = 0;
+                    left2.alpha = 0.5;
+                    right2.alpha = 1;
+                }),
+            ]
+
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                text3 = new PIXI.Text('Click anywhere to continue.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 16,
+                    fill: 0xf0f0f0
+                });
+                app.stage.addChild(text3);
+                text3.x = window.innerWidth - text3.width - 10;
+                text3.y = 10;
+                text3.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment1 = new PIXI.Text('Ji-young works hard and\ngets promoted successfully.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment1);
+                ment1.x = window.innerWidth / 2 - road1.width / 2 - ment1.width / 2;
+                ment1.y = 30 + road1.y + road1.height;
+                ment1.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment10 = new PIXI.Text('Ji-young quits her job\nto take care of the baby.\nHer husband is worried about\nher since she gets too much\npressure during and after\nher pregnancy.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment10);
+                ment10.x = window.innerWidth / 2 + road10.width / 2 - ment10.width / 2;
+                ment10.y = 30 + road10.y + road10.height;
+                ment10.alpha = 0;
+            }, this);
+
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment2 = new PIXI.Text('After many times of complaint\nabout Ji-young spending too\nmuch time in company, her\nboyfriend breaks up with her.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment2);
+                ment2.x = window.innerWidth / 2 - road1.width / 2 - ment2.width / 2;
+                ment2.y = 30 + road1.y + road1.height;
+                ment2.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment20 = new PIXI.Text('Her husband hears his co-workers\ntalking about the parental\nleave and talks to Ji-young\nthat he wants to take a leave\nto take care of the baby so that\nJi-young can go back to work.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment20);
+                ment20.x = window.innerWidth / 2 + road10.width / 2 - ment20.width / 2;
+                ment20.y = 30 + road10.y + road10.height;
+                ment20.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment3 = new PIXI.Text('Ji-young’s parents complain\na lot that she should find\na new boyfriend and get\nmarried since she is getting\nold, since it’s stressful\nfor a single woman to live\nin this society.', {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment3);
+                ment3.x = window.innerWidth / 2 - road1.width / 2 - ment3.width / 2;
+                ment3.y = 30 + road1.y + road1.height;
+                ment3.alpha = 0;
+            }, this);
+
+            document.fonts.load("16px 'robotoMedium'").then(() => {
+                ment30 = new PIXI.Text("Somehow, Ji-young’s mother-in-law\nknows that her son is going to\ntake a parental leave.\nShe calls Ji-young and is mad\nabout her, saying: 'Why\ndo you let my son take care\nof the baby? He has a good\ncareer and he wont get promoted\nif he takes a long leave!\nYou should stay home and\ntake care of the family,\nwhich is what a wife should do!'", {
+                    fontFamily: 'robotoMedium',
+                    fontSize: 22,
+                    fill: 0x000000,
+                    align: "center"
+                });
+                app.stage.addChild(ment30);
+                ment30.x = window.innerWidth / 2 + road10.width / 2 - ment30.width / 2;
+                ment30.y = 30 + road10.y + road10.height;
+                ment30.alpha = 0;
+            }, this);
+
+
+            var index1 = 0;
+            var interval1 = setInterval(() => {
+                if (index1 < s1Array1.length) {
+                    //console.log(index);
+                    s1Array1[index1]();
+                }
+                else {
+                    index1 = -1;
+                };
+                index1 += 1;
+            }, 150);
+
+            var interval2;
+            setTimeout(() => {
+                //s1s1.alpha = 0;
+                clearInterval(interval1);
+                bubble1.alpha = 1;
+                text2.alpha = 1;
+                var index2 = 0;
+                interval2 = setInterval(() => {
+                    if (index2 < s1Array2.length) {
+                        //console.log(index);
+                        s1Array2[index2]();
+                    }
+                    else {
+                        index2 = -1;
+                    };
+                    index2 += 1;
+                }, 150);
+                bubble2.alpha = 0;
+                text1.alpha = 0;
+            }, 1500);
+
+            var interval3;
+            setTimeout(() => {
+                clearInterval(interval2);
+                bubble1.alpha = 0;
+                text2.alpha = 0;
+                bubble2.alpha = 1;
+                text5.alpha = 1;
+                var index3 = 0;
+                interval3 = setInterval(() => {
+                    if (index3 < s1Array1.length) {
+                        //console.log(index1);
+                        s1Array1[index3]();
+                    }
+                    else {
+                        index3 = -1;
+                    };
+                    index3 += 1;
+                }, 150);
+
+            }, 3000);
+
+            var interval4;
+            setTimeout(() => {
+                clearInterval(interval3);
+                bubble1.alpha = 0;
+                text2.alpha = 0;
+                bubble2.alpha = 0;
+                text5.alpha = 0;
+                bubble3.alpha = 1;
+                text4.alpha = 1;
+                var index4 = 0;
+                interval4 = setInterval(() => {
+                    if (index4 < s1Array2.length) {
+                        //console.log(index);
+                        s1Array2[index4]();
+                    }
+                    else {
+                        index4 = -1;
+                    };
+                    index4 += 1;
+                }, 150);
+            }, 4500);
+
+            setTimeout(() => {
+                clearInterval(interval4);
+                bubble1.alpha = 0;
+                text2.alpha = 0;
+                bubble2.alpha = 0;
+                text5.alpha = 0;
+                bubble3.alpha = 0;
+                text4.alpha = 0;
+                app.stage.addChild(selectBG);
+                app.stage.addChild(bubble6);
+                app.stage.addChild(bubble7);
+                app.stage.addChild(select0);
+                app.stage.addChild(select1);
+                app.stage.addChild(select2);
+                selectBG.alpha = 1;
+                select0.alpha = 1;
+                select1.alpha = 1;
+                select2.alpha = 1;
+                bubble6.alpha = 1;
+                bubble7.alpha = 1;
+                bubble6.interactive = true;
+                bubble6.buttonMode = true;
+                bubble7.interactive = true;
+                bubble7.buttonMode = true;
+            }, 6400);
+
+            var buttonAction = [(() => {
+                Wbg.alpha = 1;
+                s1s0.alpha = 0;
+                s1s1.alpha = 0;
+                s1s2.alpha = 0;
+                bubble1.alpha = 0;
+                text2.alpha = 0;
+                bubble2.alpha = 0;
+                text5.alpha = 0;
+                bubble3.alpha = 0;
+                text4.alpha = 0;
+                selectBG.alpha = 0;
+                select0.alpha = 0;
+                select1.alpha = 0;
+                select2.alpha = 0;
+                bubble6.alpha = 0;
+                bubble7.alpha = 0;
+            }),
+            (() => {
+                //left
+                var index0 = 0;
+                setInterval(() => {
+                    if (index0 < roadArrayL.length) {
+                        roadArrayL[index0]();
+                    }
+                    else {
+                        index0 = -1;
+                    };
+                    index0 += 1;
+                }, 300);
+                var index = 0;
+                setInterval(() => {
+                    if (index < s2Array.length) {
+                        //console.log(index);
+                        s2Array[index]();
+                    }
+                    else {
+                        index = -1;
+                    };
+                    index += 1;
+                }, 300);
+                ment1.alpha = 1;
+                ment10.alpha = 0.5;
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 1;
+                    ment20.alpha = 0.5;
+                }, 2000);
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 0;
+                    ment20.alpha = 0;
+                    ment3.alpha = 1;
+                    ment30.alpha = 0.5;
+                }, 5000);
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 0;
+                    ment20.alpha = 0;
+                    ment3.alpha = 0;
+                    ment30.alpha = 0;
+                    window.location.href = "end.html";
+                }, 9000);
+            }),
+            (() => {
+                //right
+                var index2 = 0;
+                setInterval(() => {
+                    if (index2 < roadArrayR.length) {
+                        roadArrayR[index2]();
+                    }
+                    else {
+                        index2 = -1;
+                    };
+                    index2 += 1;
+                }, 300);
+                var index1 = 0;
+                setInterval(() => {
+                    if (index1 < s3Array.length) {
+                        //console.log(index);
+                        s3Array[index1]();
+                    }
+                    else {
+                        index1 = -1;
+                    };
+                    index1 += 1;
+                }, 300);
+                ment1.alpha = 0.5;
+                ment10.alpha = 1;
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 0.5;
+                    ment20.alpha = 1;
+                }, 2000);
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 0;
+                    ment20.alpha = 0;
+                    ment3.alpha = 0.5;
+                    ment30.alpha = 1;
+                }, 5000);
+
+                setTimeout(() => {
+                    ment1.alpha = 0;
+                    ment10.alpha = 0;
+                    ment2.alpha = 0;
+                    ment20.alpha = 0;
+                    ment3.alpha = 0;
+                    ment30.alpha = 0;
+                    window.location.href = "end.html";
+                }, 9000);
+            })];
+
+            bubble6.on("pointerup", function () {
+                console.log("left");
+                buttonAction[0]();
+                buttonAction[1]();
+            });
+            bubble7.on("pointerup", function () {
+                console.log("right");
+                buttonAction[0]();
+                buttonAction[2]();
+            })
+
+        }
+
+    </script>
+</body>
+
+</html>
