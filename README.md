@@ -1,2 +1,3 @@
 # Capstone2020
-* ### [Blogs](https://github.com/kikijinqili/Capstone2020/wiki/0-Contents)
+
+[Life of Ji-young](https://kikijinqili.github.io/Capstone2020/life-of-jiyoung/)
