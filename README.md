@@ -11,4 +11,4 @@
   ### [Trailer](https://youtu.be/fkdqSxNWdn0)
   ### [Demo](https://youtu.be/McvbhnIZt34)
 * ## Postcard
-  ![Postcard](https://kikijinqili.github.io/Capstone2020/Postcard.png)
+  ![Postcard](https://youtu.be/McvbhnIZt34)
